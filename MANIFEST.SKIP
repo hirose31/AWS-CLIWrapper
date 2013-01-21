@@ -25,3 +25,4 @@
 ^junk/
 ^MEMO
 \.gitignore$
+README.pod
