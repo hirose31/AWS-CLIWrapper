@@ -1,9 +1,11 @@
 use inc::Module::Install;
 
-
 name       'AWS-CLIWrapper';
 all_from   'lib/AWS/CLIWrapper.pm';
 license    'perl';
+
+requires 'JSON';
+requires 'IPC::Cmd';
 
 requires_external_bin 'aws';
 

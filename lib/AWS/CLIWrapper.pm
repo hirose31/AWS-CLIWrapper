@@ -7,7 +7,6 @@ our $VERSION = '0.01';
 
 use JSON;
 use IPC::Cmd;
-use Log::Minimal;
 
 our $Error = { Message => '', Code => '' };
 
@@ -118,24 +117,86 @@ __END__
 
 =head1 NAME
 
-AWS::CLIWrapper - fixme
+AWS::CLIWrapper - Wrapper module for aws-cli
 
 =head1 SYNOPSIS
 
     use AWS::CLIWrapper;
-    fixme
+    
+    my $aws = AWS::CLIWrapper->new(
+        region => 'us-west-1',
+       );
+    
+    my $res = $aws->ec2('describe-instances', {
+        instance_ids => ['i-XXXXX', 'i-YYYYY'],
+       });
+    
+    if ($res) {
+        for my $rs ( @{ $res->{reservationSet} }) {
+            for my $is (@{ $rs->{instancesSet} }) {
+                print $is->{instanceId},"\n";
+            }
+        }
+    } else {
+        warn $AWS::CLIWrapper::Error->{Code};
+        warn $AWS::CLIWrapper::Error->{Message};
+    }
 
 =head1 DESCRIPTION
 
-AWS::CLIWrapper is fixme
+AWS::CLIWrapper is wrapper module for aws-cli.
+
+AWS::CLIWrapper is a just wrapper module, so you can do everything what you can do with aws-cli.
 
 =head1 METHODS
 
 =over 4
 
-=item B<method_name>($message:Str)
+=item B<new>($param:HashRef)
 
-fixme
+Constructor of AWS::CLIWrapper. Acceptable param are:
+
+    region       region_name:Str
+    profile      profile_name:Str
+    endpoint_url endpoint_url:Str
+
+=item B<autoscaling>($operation:Str, $param:HashRef)
+
+=item B<cloudformation>($operation:Str, $param:HashRef)
+
+=item B<cloudwatch>($operation:Str, $param:HashRef)
+
+=item B<directconnect>($operation:Str, $param:HashRef)
+
+=item B<ec2>($operation:Str, $param:HashRef)
+
+=item B<elasticbeanstalk>($operation:Str, $param:HashRef)
+
+=item B<elb>($operation:Str, $param:HashRef)
+
+=item B<emr>($operation:Str, $param:HashRef)
+
+=item B<iam>($operation:Str, $param:HashRef)
+
+=item B<rds>($operation:Str, $param:HashRef)
+
+=item B<ses>($operation:Str, $param:HashRef)
+
+=item B<sns>($operation:Str, $param:HashRef)
+
+=item B<sqs>($operation:Str, $param:HashRef)
+
+=item B<sts>($operation:Str, $param:HashRef)
+
+AWS::CLIWrapper provides methods same as services of aws-cli. Please refer to `aws help`.
+
+First arg "operation" is same as operation of aws-cli. Please refer to `aws SERVICE help`.
+
+Second arg "param" is same as command line option of aws-cli.
+Please refer to `aws SERVICE OPERATION help`.
+
+Key of param is string that trimmed leading "--" and replaced "-" to "_" for command line option (--instance-ids -> instance_ids).
+Value of param is SCALAR or ARRAYREF or HASHREF.
 
 =back
 
@@ -143,19 +204,15 @@ fixme
 
 =over 4
 
-=item HOME
+=item AWS_CONFIG_FILE
 
-Used to determine the user's home directory.
+=item AWS_ACCESS_KEY_ID
 
-=back
+=item AWS_SECRET_ACCESS_KEY
 
-=head1 FILES
+=item AWS_DEFAULT_REGION
 
-=over 4
-
-=item F</path/to/config.ph>
-
-設定ファイル。
+See documents of aws-cli.
 
 =back
 
@@ -165,16 +222,17 @@ HIROSE Masaaki E<lt>hirose31 _at_ gmail.comE<gt>
 
 =head1 REPOSITORY
 
-L<https://github.com/hirose31/aws-cliwrapper>
+L<https://github.com/hirose31/AWS-CLIWrapper>
 
-  git clone git://github.com/hirose31/aws-cliwrapper.git
+  git clone git://github.com/hirose31/AWS-CLIWrapper.git
 
 patches and collaborators are welcome.
 
 =head1 SEE ALSO
 
-L<Module::Hoge|Module::Hoge>,
-ls(1), cd(1)
+L<http://aws.amazon.com/cli/>,
+L<https://github.com/aws/aws-cli>,
+L<http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html>,
 
 =head1 LICENSE
 

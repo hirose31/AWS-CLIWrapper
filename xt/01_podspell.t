@@ -8,3 +8,7 @@ __DATA__
 HIROSE Masaaki
 hirose31 _at_ gmail.com
 AWS::CLIWrapper
+arg
+aws
+cli
+param
