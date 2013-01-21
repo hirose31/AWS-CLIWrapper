@@ -1,0 +1,14 @@
+junk/*
+private/*
+.gitignore*
+.shipit*
+META.yml
+TODO.todo
+inc/*
+Makefile
+Makefile.old
+MANIFEST
+MANIFEST.bak
+blib
+pm_to_blib
+MEMO
