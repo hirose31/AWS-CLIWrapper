@@ -62,7 +62,7 @@ sub _execute {
 
     my($ok, $err, $buf, $stdout_buf, $stderr_buf) = IPC::Cmd::run(
         command => \@cmd,
-        timeout => 8,
+        timeout => 30,
        );
 
     if ($ok) {
