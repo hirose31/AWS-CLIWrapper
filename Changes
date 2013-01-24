@@ -1,5 +1,8 @@
 Revision history for AWS::CLIWrapper
 
+0.02  2013-01-24
+  * Support parameter: structure in list
+
 0.01  2013-01-21
   * Initial version
 
