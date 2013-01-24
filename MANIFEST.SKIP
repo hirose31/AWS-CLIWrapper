@@ -26,3 +26,4 @@
 ^MEMO
 \.gitignore$
 README.pod
+^MYMETA\.
