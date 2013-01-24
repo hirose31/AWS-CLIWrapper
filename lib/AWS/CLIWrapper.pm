@@ -3,7 +3,7 @@ package AWS::CLIWrapper;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use JSON;
 use IPC::Cmd;
@@ -40,7 +40,7 @@ sub param2opt {
     if (! $type) {
         push @v, $v;
     } elsif ($type eq 'ARRAY') {
-        push @v, @$v;
+        push @v, map { ref($_) ? encode_json($_) : $_ } @$v;
     } elsif ($type eq 'HASH') {
         push @v, encode_json($v);
     } else {
