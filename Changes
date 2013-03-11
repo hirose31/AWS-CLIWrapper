@@ -1,5 +1,8 @@
 Revision history for AWS::CLIWrapper
 
+0.03  2013-03-11
+  * Add $AWS::CLIWrapper::true and $AWS::CLIWrapper::false for boolean parameter
+
 0.02  2013-01-24
   * Support parameter: structure in list
 
