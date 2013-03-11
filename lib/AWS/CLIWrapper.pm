@@ -10,6 +10,9 @@ use IPC::Cmd;
 
 our $Error = { Message => '', Code => '' };
 
+our $true  = do { bless \(my $dummy = 1), "AWS::CLIWrapper::Boolean" };
+our $false = do { bless \(my $dummy = 0), "AWS::CLIWrapper::Boolean" };
+
 sub new {
     my($class, %param) = @_;
 
@@ -43,11 +46,17 @@ sub param2opt {
         push @v, map { ref($_) ? encode_json($_) : $_ } @$v;
     } elsif ($type eq 'HASH') {
         push @v, encode_json($v);
+    } elsif ($type eq 'AWS::CLIWrapper::Boolean') {
+        if ($$v == 1) {
+            return ($k);
+        } else {
+            return ();
+        }
     } else {
         push @v, $v;
     }
 
-    return($k, @v);
+    return ($k, @v);
 }
 
 sub json { $_[0]->{json} }
@@ -59,6 +68,7 @@ sub _execute {
     while (my($k, $v) = each %$param) {
         push @cmd, param2opt($k, $v);
     }
+    warn "cmd: ".join(' ', @cmd) if $ENV{AWSCLI_DEBUG};
 
     my($ok, $err, $buf, $stdout_buf, $stderr_buf) = IPC::Cmd::run(
         command => \@cmd,
@@ -197,6 +207,14 @@ Please refer to `aws SERVICE OPERATION help`.
 
 Key of param is string that trimmed leading "--" and replaced "-" to "_" for command line option (--instance-ids -> instance_ids).
 Value of param is SCALAR or ARRAYREF or HASHREF.
+
+You can specify C<(boolean)> parameter by C<$AWS::CLIWrapper::true> or C<$AWS::CLIWrapper::false>.
+
+    my $res = $aws->ec2('assign-private-ip-addresses', {
+        network_interface_id => $eni_id,
+        private_ip_addresses => [ $private_ip_1, $private_ip_2 ],
+        allow_reassignment   => $AWS::CLIWrapper::true,
+       })
 
 =back
 
