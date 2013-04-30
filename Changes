@@ -1,5 +1,8 @@
 Revision history for AWS::CLIWrapper
 
+0.04  2013-04-30
+  * Adjust $Error for incompatible changes of aws-cli/botocore
+
 0.03  2013-03-11
   * Add $AWS::CLIWrapper::true and $AWS::CLIWrapper::false for boolean parameter
 
