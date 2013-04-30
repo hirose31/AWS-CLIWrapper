@@ -3,7 +3,7 @@ package AWS::CLIWrapper;
 use strict;
 use warnings;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use JSON;
 use IPC::Cmd;
@@ -91,7 +91,14 @@ sub _execute {
                          $service, $operation, 'NG', $json,
                         ) if $ENV{AWSCLI_DEBUG};
             my($ret) = $self->json->decode_prefix($json);
-            $Error = $ret->{Response}{Errors}{Error};
+            if (exists $ret->{Errors}{Error}) {
+                $Error = $ret->{Errors}{Error}
+            } elsif (exists $ret->{Response}{Errors}{Error}) {
+                # old structure (maybe botocore < 0.7.0)
+                $Error = $ret->{Response}{Errors}{Error};
+            } else {
+                $Error = { Message => 'Unknown', Code => 'Unknown' };
+            }
         } else {
             my $msg = join("", @$buf).": ".$err;
             warn sprintf("%s.%s[%s]: %s\n",
