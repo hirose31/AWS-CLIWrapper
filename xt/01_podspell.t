@@ -12,3 +12,5 @@ arg
 aws
 cli
 param
+awscli
+botocore

@@ -3,7 +3,7 @@ package AWS::CLIWrapper;
 use strict;
 use warnings;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 use JSON;
 use IPC::Cmd;
@@ -110,21 +110,30 @@ sub _execute {
     }
 }
 
-# aws help | perl -ne 'if (/Available services/../^$/) { s/^\s+\*\s+// or next; chomp; printf "sub %-18s { shift->_execute('"'"'%s'"'"', \@_) }\n", $_, $_}'
+# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+\?\s+// or next; chomp; printf "sub %-18s { shift->_execute('"'"'%s'"'"', \@_) }\n", $_, $_ }'
+# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+\?\s+// or next; chomp; printf "=item B<%s>(\$operation:Str, \$param:HashRef)\n\n", $_}'
 sub autoscaling        { shift->_execute('autoscaling', @_) }
 sub cloudformation     { shift->_execute('cloudformation', @_) }
 sub cloudwatch         { shift->_execute('cloudwatch', @_) }
+sub datapipeline       { shift->_execute('datapipeline', @_) }
 sub directconnect      { shift->_execute('directconnect', @_) }
 sub ec2                { shift->_execute('ec2', @_) }
 sub elasticbeanstalk   { shift->_execute('elasticbeanstalk', @_) }
+sub elastictranscoder  { shift->_execute('elastictranscoder', @_) }
 sub elb                { shift->_execute('elb', @_) }
 sub emr                { shift->_execute('emr', @_) }
 sub iam                { shift->_execute('iam', @_) }
+sub importexport       { shift->_execute('importexport', @_) }
+sub opsworks           { shift->_execute('opsworks', @_) }
 sub rds                { shift->_execute('rds', @_) }
+sub redshift           { shift->_execute('redshift', @_) }
+sub s3                 { shift->_execute('s3', @_) }
 sub ses                { shift->_execute('ses', @_) }
 sub sns                { shift->_execute('sns', @_) }
 sub sqs                { shift->_execute('sqs', @_) }
+sub storagegateway     { shift->_execute('storagegateway', @_) }
 sub sts                { shift->_execute('sts', @_) }
+sub swf                { shift->_execute('swf', @_) }
 
 1;
 
@@ -149,9 +158,9 @@ AWS::CLIWrapper - Wrapper module for aws-cli
        });
     
     if ($res) {
-        for my $rs ( @{ $res->{reservationSet} }) {
-            for my $is (@{ $rs->{instancesSet} }) {
-                print $is->{instanceId},"\n";
+        for my $rs ( @{ $res->{Reservations} }) {
+            for my $is (@{ $rs->{Instances} }) {
+                print $is->{InstanceId},"\n";
             }
         }
     } else {
@@ -161,7 +170,7 @@ AWS::CLIWrapper - Wrapper module for aws-cli
 
 =head1 DESCRIPTION
 
-AWS::CLIWrapper is wrapper module for aws-cli.
+AWS::CLIWrapper is wrapper module for aws-cli (recommend: awscli >= 0.7.0, botocore >= 0.7.0).
 
 AWS::CLIWrapper is a just wrapper module, so you can do everything what you can do with aws-cli.
 
@@ -183,11 +192,15 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<cloudwatch>($operation:Str, $param:HashRef)
 
+=item B<datapipeline>($operation:Str, $param:HashRef)
+
 =item B<directconnect>($operation:Str, $param:HashRef)
 
 =item B<ec2>($operation:Str, $param:HashRef)
 
 =item B<elasticbeanstalk>($operation:Str, $param:HashRef)
+
+=item B<elastictranscoder>($operation:Str, $param:HashRef)
 
 =item B<elb>($operation:Str, $param:HashRef)
 
@@ -195,7 +208,15 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<iam>($operation:Str, $param:HashRef)
 
+=item B<importexport>($operation:Str, $param:HashRef)
+
+=item B<opsworks>($operation:Str, $param:HashRef)
+
 =item B<rds>($operation:Str, $param:HashRef)
+
+=item B<redshift>($operation:Str, $param:HashRef)
+
+=item B<s3>($operation:Str, $param:HashRef)
 
 =item B<ses>($operation:Str, $param:HashRef)
 
@@ -203,7 +224,11 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<sqs>($operation:Str, $param:HashRef)
 
+=item B<storagegateway>($operation:Str, $param:HashRef)
+
 =item B<sts>($operation:Str, $param:HashRef)
+
+=item B<swf>($operation:Str, $param:HashRef)
 
 AWS::CLIWrapper provides methods same as services of aws-cli. Please refer to `aws help`.
 
@@ -258,6 +283,7 @@ patches and collaborators are welcome.
 L<http://aws.amazon.com/cli/>,
 L<https://github.com/aws/aws-cli>,
 L<http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html>,
+L<https://github.com/boto/botocore>,
 
 =head1 LICENSE
 
@@ -274,4 +300,4 @@ it under the same terms as Perl itself.
 # coding: utf-8
 # End:
 
-# vi: set ts=4 sw=4 sts=0 :
+# vi: set ts=4 sw=4 sts=0 et ft=perl fenc=utf-8 ff=unix :
