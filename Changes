@@ -1,5 +1,8 @@
 Revision history for AWS::CLIWrapper
 
+0.05  2013-05-01
+  * Add some methods for latest awscli (0.9.2)
+
 0.04  2013-04-30
   * Adjust $Error for incompatible changes of aws-cli/botocore
 
