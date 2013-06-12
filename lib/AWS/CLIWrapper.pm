@@ -77,11 +77,18 @@ sub _execute {
 
     if ($ok) {
         my $json = join "", @$stdout_buf;
-        my($ret) = $self->json->decode_prefix($json);
         warn sprintf("%s.%s[%s]: %s\n",
                      $service, $operation, 'OK', $json,
                     ) if $ENV{AWSCLI_DEBUG};
-
+        local $@;
+        my($ret) = eval {
+            # aws s3 returns null HTTP body, so failed to parse as JSON
+            $self->json->decode_prefix($json);
+        };
+        if ($@) {
+            warn $@ if $ENV{AWSCLI_DEBUG};
+            return $json;
+        }
         return $ret;
     } else {
         my $stdout_str = join "", @$stdout_buf;
@@ -91,8 +98,8 @@ sub _execute {
                          $service, $operation, 'NG', $json,
                         ) if $ENV{AWSCLI_DEBUG};
             my($ret) = $self->json->decode_prefix($json);
-            if (exists $ret->{Errors}{Error}) {
-                $Error = $ret->{Errors}{Error}
+            if (exists $ret->{Errors} && ref($ret->{Errors}) eq 'ARRAY') {
+                $Error = $ret->{Errors}[0];
             } elsif (exists $ret->{Response}{Errors}{Error}) {
                 # old structure (maybe botocore < 0.7.0)
                 $Error = $ret->{Response}{Errors}{Error};
