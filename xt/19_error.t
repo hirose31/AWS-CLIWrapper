@@ -14,7 +14,7 @@ $err = $AWS::CLIWrapper::Error;
 ok(!$res, 'unknown operation');
 
   is($err->{Code},    'Unknown',                     'err Code');
-like($err->{Message}, qr/operation: invalid choice/, 'err Message');
+like($err->{Message}, qr/operation: Invalid choice/, 'err Message');
 
 ### invalid option
 $res = $aws->ec2('describe-instances', { invalid_option => 'blah' });
@@ -22,7 +22,7 @@ $err = $AWS::CLIWrapper::Error;
 ok(!$res, 'invalid option');
 
   is($err->{Code},    'Unknown',                    'err Code');
-like($err->{Message}, qr/We have leftover options/, 'err Message');
+like($err->{Message}, qr/Unknown options:/,         'err Message');
 
 ### invalid option value
 $res = $aws->ec2('describe-instances', { instance_ids => ['blah'] });

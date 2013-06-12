@@ -117,14 +117,16 @@ sub _execute {
     }
 }
 
-# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+\?\s+// or next; chomp; printf "sub %-18s { shift->_execute('"'"'%s'"'"', \@_) }\n", $_, $_ }'
-# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+\?\s+// or next; chomp; printf "=item B<%s>(\$operation:Str, \$param:HashRef)\n\n", $_}'
+# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; printf "sub %-18s { shift->_execute('"'"'%s'"'"', \@_) }\n", $_, $_ }'
+# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; printf "=item B<%s>(\$operation:Str, \$param:HashRef)\n\n", $_}'
 sub autoscaling        { shift->_execute('autoscaling', @_) }
 sub cloudformation     { shift->_execute('cloudformation', @_) }
+sub cloudsearch        { shift->_execute('cloudsearch', @_) }
 sub cloudwatch         { shift->_execute('cloudwatch', @_) }
 sub datapipeline       { shift->_execute('datapipeline', @_) }
 sub directconnect      { shift->_execute('directconnect', @_) }
 sub ec2                { shift->_execute('ec2', @_) }
+sub elasticache        { shift->_execute('elasticache', @_) }
 sub elasticbeanstalk   { shift->_execute('elasticbeanstalk', @_) }
 sub elastictranscoder  { shift->_execute('elastictranscoder', @_) }
 sub elb                { shift->_execute('elb', @_) }
@@ -134,12 +136,14 @@ sub importexport       { shift->_execute('importexport', @_) }
 sub opsworks           { shift->_execute('opsworks', @_) }
 sub rds                { shift->_execute('rds', @_) }
 sub redshift           { shift->_execute('redshift', @_) }
+sub route53            { shift->_execute('route53', @_) }
 sub s3                 { shift->_execute('s3', @_) }
 sub ses                { shift->_execute('ses', @_) }
 sub sns                { shift->_execute('sns', @_) }
 sub sqs                { shift->_execute('sqs', @_) }
 sub storagegateway     { shift->_execute('storagegateway', @_) }
 sub sts                { shift->_execute('sts', @_) }
+sub support            { shift->_execute('support', @_) }
 sub swf                { shift->_execute('swf', @_) }
 
 1;
