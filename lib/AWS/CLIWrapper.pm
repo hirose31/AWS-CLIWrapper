@@ -61,13 +61,14 @@ sub param2opt {
         push @v, $v;
     }
 
+    @v = map { qq{'$_'} } @v;
     return ($k, @v);
 }
 
 sub json { $_[0]->{json} }
 
 sub _execute {
-    my($self, $service, $operation, $param) = @_;
+    my($self, $service, $operation, $param, %opt) = @_;
     my @cmd = ('aws', @{$self->{opt}}, $service, $operation);
 
     while (my($k, $v) = each %$param) {
@@ -75,13 +76,12 @@ sub _execute {
     }
     warn "cmd: ".join(' ', @cmd) if $ENV{AWSCLI_DEBUG};
 
-    my($ok, $err, $buf, $stdout_buf, $stderr_buf) = IPC::Cmd::run(
-        command => \@cmd,
-        timeout => 30,
-       );
+    my $ret = IPC::Cmd::run_forked(join(' ', @cmd), {
+        timeout => $opt{timeout} || 30,
+    });
 
-    if ($ok) {
-        my $json = join "", @$stdout_buf;
+    if ($ret->{exit_code} == 0 && $ret->{timeout} == 0) {
+        my $json = $ret->{stdout};
         warn sprintf("%s.%s[%s]: %s\n",
                      $service, $operation, 'OK', $json,
                     ) if $ENV{AWSCLI_DEBUG};
@@ -96,7 +96,7 @@ sub _execute {
         }
         return $ret;
     } else {
-        my $stdout_str = join "", @$stdout_buf;
+        my $stdout_str = $ret->{stdout};
         if ($stdout_str && $stdout_str =~ /^{/) {
             my $json = $stdout_str;
             warn sprintf("%s.%s[%s]: %s\n",
@@ -112,7 +112,7 @@ sub _execute {
                 $Error = { Message => 'Unknown', Code => 'Unknown' };
             }
         } else {
-            my $msg = join("", @$buf).": ".$err;
+            my $msg = $ret->{err_msg};
             warn sprintf("%s.%s[%s]: %s\n",
                          $service, $operation, 'NG', $msg,
                         ) if $ENV{AWSCLI_DEBUG};
@@ -167,11 +167,14 @@ AWS::CLIWrapper - Wrapper module for aws-cli
     
     my $aws = AWS::CLIWrapper->new(
         region => 'us-west-1',
-       );
+    );
     
-    my $res = $aws->ec2('describe-instances', {
-        instance_ids => ['i-XXXXX', 'i-YYYYY'],
-       });
+    my $res = $aws->ec2(
+        'describe-instances' => {
+            instance_ids => ['i-XXXXX', 'i-YYYYY'],
+        },
+        timeout => 18, # optional. default is 30 seconds
+    );
     
     if ($res) {
         for my $rs ( @{ $res->{Reservations} }) {
@@ -202,49 +205,57 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
     profile      profile_name:Str
     endpoint_url endpoint_url:Str
 
-=item B<autoscaling>($operation:Str, $param:HashRef)
+=item B<autoscaling>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<cloudformation>($operation:Str, $param:HashRef)
+=item B<cloudformation>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<cloudwatch>($operation:Str, $param:HashRef)
+=item B<cloudsearch>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<datapipeline>($operation:Str, $param:HashRef)
+=item B<cloudwatch>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<directconnect>($operation:Str, $param:HashRef)
+=item B<datapipeline>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<ec2>($operation:Str, $param:HashRef)
+=item B<directconnect>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<elasticbeanstalk>($operation:Str, $param:HashRef)
+=item B<ec2>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<elastictranscoder>($operation:Str, $param:HashRef)
+=item B<elasticache>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<elb>($operation:Str, $param:HashRef)
+=item B<elasticbeanstalk>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<emr>($operation:Str, $param:HashRef)
+=item B<elastictranscoder>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<iam>($operation:Str, $param:HashRef)
+=item B<elb>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<importexport>($operation:Str, $param:HashRef)
+=item B<emr>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<opsworks>($operation:Str, $param:HashRef)
+=item B<iam>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<rds>($operation:Str, $param:HashRef)
+=item B<importexport>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<redshift>($operation:Str, $param:HashRef)
+=item B<opsworks>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<s3>($operation:Str, $param:HashRef)
+=item B<rds>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<ses>($operation:Str, $param:HashRef)
+=item B<redshift>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<sns>($operation:Str, $param:HashRef)
+=item B<route53>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<sqs>($operation:Str, $param:HashRef)
+=item B<s3>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<storagegateway>($operation:Str, $param:HashRef)
+=item B<ses>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<sts>($operation:Str, $param:HashRef)
+=item B<sns>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<swf>($operation:Str, $param:HashRef)
+=item B<sqs>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<storagegateway>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<sts>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<support>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<swf>($operation:Str, $param:HashRef, %opt:Hash)
 
 AWS::CLIWrapper provides methods same as services of aws-cli. Please refer to `aws help`.
 
@@ -271,6 +282,12 @@ Special case: several OPERATIONs take a single arg. For example "aws s3 get-obje
         key         => 'blahblahblah',
         output_file => '/path/to/output/file',
     })
+
+Third arg "opt" is optional. Available key/values are below:
+
+  timeout => Int
+    Maximum time the "aws" command is allowed to run before aborting.
+    default is 30 seconds.
 
 
 =back
