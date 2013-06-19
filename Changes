@@ -1,5 +1,9 @@
 Revision history for AWS::CLIWrapper
 
+0.07  2013-06-19
+  * Add "output_file" key name of parameter for aws s3 get-object
+  * Enable to specify timeout before aborting "aws" command
+
 0.06  2013-06-12
   * Add some methods for aws-cli/0.12.0
   * Fix died when failed to parse result as JSON (aws s3)
