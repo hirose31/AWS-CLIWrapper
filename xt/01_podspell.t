@@ -14,3 +14,4 @@ cli
 param
 awscli
 botocore
+OPERATIONs

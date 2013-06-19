@@ -41,7 +41,12 @@ sub param2opt {
 
     my $type = ref $v;
     if (! $type) {
-        push @v, $v;
+        if ($k eq '--output-file') {
+            # aws s3 get-object takes a single arg for output file path
+            return $v;
+        } else {
+            push @v, $v;
+        }
     } elsif ($type eq 'ARRAY') {
         push @v, map { ref($_) ? encode_json($_) : $_ } @$v;
     } elsif ($type eq 'HASH') {
@@ -258,6 +263,15 @@ You can specify C<(boolean)> parameter by C<$AWS::CLIWrapper::true> or C<$AWS::C
         private_ip_addresses => [ $private_ip_1, $private_ip_2 ],
         allow_reassignment   => $AWS::CLIWrapper::true,
        })
+
+Special case: several OPERATIONs take a single arg. For example "aws s3 get-object ... output_file". In this case, You can specify below using C<output_file> key:
+
+    my $res = $aws->s3('get-object', {
+        bucket      => 'my-bucket',
+        key         => 'blahblahblah',
+        output_file => '/path/to/output/file',
+    })
+
 
 =back
 
