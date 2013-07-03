@@ -76,9 +76,28 @@ sub _execute {
     }
     warn "cmd: ".join(' ', @cmd) if $ENV{AWSCLI_DEBUG};
 
-    my $ret = IPC::Cmd::run_forked(join(' ', @cmd), {
-        timeout => $opt{timeout} || 30,
-    });
+    my $ret;
+    if (exists $opt{'nofork'} && $opt{'nofork'}) {
+        # better for perl debugger
+        my($ok, $err, $buf, $stdout_buf, $stderr_buf) = IPC::Cmd::run(
+            command => join(' ', @cmd),
+            timeout => $opt{timeout} || 30,
+        );
+        $ret->{stdout} = join "", @$stdout_buf;
+        $ret->{err_msg} = (defined $err ? "$err\n" : "") . join "", @$stderr_buf;
+        if ($ok) {
+            $ret->{exit_code} = 0;
+            $ret->{timeout} = 0;
+        } else {
+            $ret->{exit_code} = 2;
+            $ret->{timeout} = 1 if defined $err && $err =~ /^IPC::Cmd::TimeOut:/;
+        }
+        print "";
+    } else {
+        $ret = IPC::Cmd::run_forked(join(' ', @cmd), {
+            timeout => $opt{timeout} || 30,
+        });
+    }
 
     if ($ret->{exit_code} == 0 && $ret->{timeout} == 0) {
         my $json = $ret->{stdout};
@@ -289,6 +308,8 @@ Third arg "opt" is optional. Available key/values are below:
     Maximum time the "aws" command is allowed to run before aborting.
     default is 30 seconds.
 
+  nofork => Int (>0)
+    Call IPC::Cmd::run vs. IPC::Cmd::run_forked (mostly useful if/when in perl debugger)
 
 =back
 
