@@ -1,5 +1,8 @@
 Revision history for AWS::CLIWrapper
 
+0.08  2013-07-05
+  * Potential 'nofork' option to allow calling IPC::Cmd::run vs. run_forked (issue #1, thanks @mschrader)
+
 0.07  2013-06-19
   * Add "output_file" key name of parameter for aws s3 get-object
   * Enable to specify timeout before aborting "aws" command
