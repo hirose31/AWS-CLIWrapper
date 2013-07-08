@@ -309,7 +309,7 @@ Third arg "opt" is optional. Available key/values are below:
     default is 30 seconds.
 
   nofork => Int (>0)
-    Call IPC::Cmd::run vs. IPC::Cmd::run_forked (mostly useful if/when in perl debugger)
+    Call IPC::Cmd::run vs. IPC::Cmd::run_forked (mostly useful if/when in perl debugger).  Note: 'timeout', if used with 'nofork', will merely cause an alarm and return.  ie. 'run' will NOT kill the awscli command like 'run_forked' will.
 
 =back
 
