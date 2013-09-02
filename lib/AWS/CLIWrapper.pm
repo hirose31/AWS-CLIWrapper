@@ -141,20 +141,18 @@ sub _execute {
     }
 }
 
-# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; printf "sub %-18s { shift->_execute('"'"'%s'"'"', \@_) }\n", $_, $_ }'
-# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; printf "=item B<%s>(\$operation:Str, \$param:HashRef)\n\n", $_}'
+# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; next if $_ eq 'help'; printf "sub %-18s { shift->_execute('"'"'%s'"'"', \@_) }\n", $_, $_ }'
+# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; next if $_ eq 'help'; printf "=item B<%s>(\$operation:Str, \$param:HashRef, %%opt:Hash)\n\n", $_}'
 sub autoscaling        { shift->_execute('autoscaling', @_) }
 sub cloudformation     { shift->_execute('cloudformation', @_) }
-sub cloudsearch        { shift->_execute('cloudsearch', @_) }
 sub cloudwatch         { shift->_execute('cloudwatch', @_) }
-sub datapipeline       { shift->_execute('datapipeline', @_) }
 sub directconnect      { shift->_execute('directconnect', @_) }
+sub dynamodb           { shift->_execute('dynamodb', @_) }
 sub ec2                { shift->_execute('ec2', @_) }
 sub elasticache        { shift->_execute('elasticache', @_) }
 sub elasticbeanstalk   { shift->_execute('elasticbeanstalk', @_) }
 sub elastictranscoder  { shift->_execute('elastictranscoder', @_) }
 sub elb                { shift->_execute('elb', @_) }
-sub emr                { shift->_execute('emr', @_) }
 sub iam                { shift->_execute('iam', @_) }
 sub importexport       { shift->_execute('importexport', @_) }
 sub opsworks           { shift->_execute('opsworks', @_) }
@@ -162,6 +160,7 @@ sub rds                { shift->_execute('rds', @_) }
 sub redshift           { shift->_execute('redshift', @_) }
 sub route53            { shift->_execute('route53', @_) }
 sub s3                 { shift->_execute('s3', @_) }
+sub s3api              { shift->_execute('s3api', @_) }
 sub ses                { shift->_execute('ses', @_) }
 sub sns                { shift->_execute('sns', @_) }
 sub sqs                { shift->_execute('sqs', @_) }
@@ -228,13 +227,11 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<cloudformation>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<cloudsearch>($operation:Str, $param:HashRef, %opt:Hash)
-
 =item B<cloudwatch>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<datapipeline>($operation:Str, $param:HashRef, %opt:Hash)
-
 =item B<directconnect>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<dynamodb>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<ec2>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -245,8 +242,6 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<elastictranscoder>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<elb>($operation:Str, $param:HashRef, %opt:Hash)
-
-=item B<emr>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<iam>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -261,6 +256,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<route53>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<s3>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<s3api>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<ses>($operation:Str, $param:HashRef, %opt:Hash)
 
