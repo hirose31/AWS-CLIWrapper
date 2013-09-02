@@ -1,7 +1,8 @@
 Revision history for AWS::CLIWrapper
 
-0.09  fixme
+0.09  2013-09-02
   * Update document on nofork and timeout (thanks @mschrader)
+  * Add some methods for aws-cli/0.16.0
 
 0.08  2013-07-05
   * Potential 'nofork' option to allow calling IPC::Cmd::run vs. run_forked (issue #1, thanks @mschrader)
