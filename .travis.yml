@@ -1,0 +1,16 @@
+language: perl
+perl:
+  - "5.16"
+  - "5.14"
+before_install:
+  - cpanm Module::Install::Repository
+  - cpanm Module::Install::ReadmeFromPod
+  - cpanm Module::Install::CPANfile
+  - cpanm -n git://github.com/kan/coveralls-perl.git
+script: yes | (perl Makefile.PL && make && cover -test)
+after_success:
+  - cover -report coveralls
+notifications:
+  email:
+    - hirose31+travis@gmail.com
+
