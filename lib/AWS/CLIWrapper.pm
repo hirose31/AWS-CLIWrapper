@@ -5,13 +5,25 @@ use warnings;
 
 our $VERSION = '0.09';
 
-use JSON;
+use version;
+use JSON 2;
 use IPC::Cmd;
 
 our $Error = { Message => '', Code => '' };
 
 our $true  = do { bless \(my $dummy = 1), "AWS::CLIWrapper::Boolean" };
 our $false = do { bless \(my $dummy = 0), "AWS::CLIWrapper::Boolean" };
+
+my $AWSCLI_VERSION = do {
+    my $vs = qx(aws --version 2>&1) || '';
+    my $v;
+    if ($vs =~ m{/([0-9.]+)\s}) {
+        $v = $1;
+    } else {
+        $v = 0;
+    }
+    version->parse($v);
+};
 
 sub new {
     my($class, %param) = @_;
@@ -29,6 +41,10 @@ sub new {
     }, $class;
 
     return $self;
+}
+
+sub awscli_version {
+    return $AWSCLI_VERSION;
 }
 
 sub param2opt {
