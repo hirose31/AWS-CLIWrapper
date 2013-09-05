@@ -81,15 +81,15 @@ sub param2opt {
     return ($k, @v);
 }
 
-# >= 0.14.0 : Key, Values, Name
-# <  0.14.0 : key, values, name
+# >= 0.14.0 : Key, Values, Value, Name
+# <  0.14.0 : key, values, value, name
 sub _compat_kv_uc {
     my $v = shift;
     my $type = ref $v;
 
     if ($type && $type eq 'HASH') {
         for my $hk (keys %$v) {
-            if ($hk =~ /^(?:key|name|values)$/) {
+            if ($hk =~ /^(?:key|name|values|value)$/) {
                 $v->{ucfirst($hk)} = delete $v->{$hk};
             }
         }
@@ -103,7 +103,7 @@ sub _compat_kv_lc {
 
     if ($type && $type eq 'HASH') {
         for my $hk (keys %$v) {
-            if ($hk =~ /^(?:Key|Name|Values)$/) {
+            if ($hk =~ /^(?:Key|Name|Values|Values)$/) {
                 $v->{lc($hk)} = delete $v->{$hk};
             }
         }
