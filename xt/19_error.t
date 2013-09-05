@@ -30,7 +30,7 @@ $err = $AWS::CLIWrapper::Error;
 ok(!$res, 'invalid option value');
 
   is($err->{Code},    'Unknown', 'err Code');
-like($err->{Message}, qr/Invalid id:/,               'err Message');
+like($err->{Message}, qr/(Invalid id:|Unknown)/, 'err Message');
 
 ### required option
 $res = $aws->ec2('run-instances');
