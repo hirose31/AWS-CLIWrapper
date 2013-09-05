@@ -82,8 +82,8 @@ sub param2opt {
 }
 
 # >= 0.14.0 : Key, Values, Name
-# <= 0.13.2 : key, values, name, also accept Key, Values, Name
-sub _compat_kv {
+# <  0.14.0 : key, values, name
+sub _compat_kv_uc {
     my $v = shift;
     my $type = ref $v;
 
@@ -97,6 +97,21 @@ sub _compat_kv {
 
     return $v;
 }
+sub _compat_kv_lc {
+    my $v = shift;
+    my $type = ref $v;
+
+    if ($type && $type eq 'HASH') {
+        for my $hk (keys %$v) {
+            if ($hk =~ /^(?:Key|Name|Values)$/) {
+                $v->{lc($hk)} = delete $v->{$hk};
+            }
+        }
+    }
+
+    return $v;
+}
+*_compat_kv = __PACKAGE__->awscli_version >= 0.14.0 ? *_compat_kv_uc : *_compat_kv_lc;
 
 sub json { $_[0]->{json} }
 
