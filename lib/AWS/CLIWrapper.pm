@@ -64,9 +64,9 @@ sub param2opt {
             push @v, $v;
         }
     } elsif ($type eq 'ARRAY') {
-        push @v, map { ref($_) ? encode_json($_) : $_ } @$v;
+        push @v, map { ref($_) ? encode_json(_compat_kv($_)) : $_ } @$v;
     } elsif ($type eq 'HASH') {
-        push @v, encode_json($v);
+        push @v, encode_json(_compat_kv($v));
     } elsif ($type eq 'AWS::CLIWrapper::Boolean') {
         if ($$v == 1) {
             return ($k);
@@ -79,6 +79,23 @@ sub param2opt {
 
     @v = map { qq{'$_'} } @v;
     return ($k, @v);
+}
+
+# >= 0.14.0 : Key, Values, Name
+# <= 0.13.2 : key, values, name, also accept Key, Values, Name
+sub _compat_kv {
+    my $v = shift;
+    my $type = ref $v;
+
+    if ($type && $type eq 'HASH') {
+        for my $hk (keys %$v) {
+            if ($hk =~ /^(?:key|name|values)$/) {
+                $v->{ucfirst($hk)} = delete $v->{$hk};
+            }
+        }
+    }
+
+    return $v;
 }
 
 sub json { $_[0]->{json} }
