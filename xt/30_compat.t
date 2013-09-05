@@ -42,6 +42,8 @@ subtest 'ec2 run-instances: --min-count, --max-count VS --count' => sub {
 # >= 0.15.0 : s3 and s3api (formerly s3)
 # <  0.15.0 : s3 only
 subtest 's3 and s3api' => sub {
+    plan skip_all => "Suport S3 >= 0.8.0"
+        if AWS::CLIWrapper->awscli_version < 0.8.0;
     # >= 0.15.0
     $res = $aws->s3api('list-buckets');
     ok($res, 's3api list-buckets');

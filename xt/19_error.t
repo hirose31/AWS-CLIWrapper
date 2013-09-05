@@ -29,7 +29,7 @@ $res = $aws->ec2('describe-instances', { instance_ids => ['blah'] });
 $err = $AWS::CLIWrapper::Error;
 ok(!$res, 'invalid option value');
 
-  is($err->{Code},    'Unknown', 'err Code');
+like($err->{Code},    qr/(Unknown|InvalidInstanceID.Malformed)/, 'err Code');
 like($err->{Message}, qr/(Invalid id:|Unknown)/, 'err Message');
 
 ### required option
