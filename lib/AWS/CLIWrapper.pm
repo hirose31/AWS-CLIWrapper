@@ -3,7 +3,7 @@ package AWS::CLIWrapper;
 use strict;
 use warnings;
 
-our $VERSION = '0.09';
+our $VERSION = '1.00';
 
 use version;
 use JSON 2;
@@ -276,7 +276,7 @@ AWS::CLIWrapper - Wrapper module for aws-cli
 
 =head1 DESCRIPTION
 
-AWS::CLIWrapper is wrapper module for aws-cli (recommend: awscli >= 0.7.0, botocore >= 0.7.0).
+AWS::CLIWrapper is wrapper module for aws-cli (recommend: awscli >= 1.0.0, requires: >= 0.7.0).
 
 AWS::CLIWrapper is a just wrapper module, so you can do everything what you can do with aws-cli.
 
