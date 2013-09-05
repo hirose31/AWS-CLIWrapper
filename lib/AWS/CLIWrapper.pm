@@ -104,6 +104,34 @@ sub _execute {
     my($self, $service, $operation, $param, %opt) = @_;
     my @cmd = ('aws', @{$self->{opt}}, $service, $operation);
 
+    # compat: ec2 run-instances
+    # >= 0.14.0 : --count N or --count MIN:MAX
+    # <  0.14.0 : --min-count N and --max-count N
+    if ($service eq 'ec2' && $operation eq 'run-instances') {
+        if (__PACKAGE__->awscli_version >= 0.14.0) {
+            my($min,$max) = (1,1);
+            for my $hk (keys %$param) {
+                if ($hk eq 'min_count') {
+                    $min = delete $param->{min_count};
+                } elsif ($hk eq 'max_count') {
+                    $max = delete $param->{max_count};
+                }
+            }
+            $param->{count} = "${min}:${max}" unless $param->{count}
+        } else {
+            my($min,$max);
+            for my $hk (keys %$param) {
+                if ($hk eq 'count') {
+                    ($min,$max) = split /:/, delete($param->{count});
+                    $max ||= $min;
+                    last;
+                }
+            }
+            $param->{min_count} = $min unless $param->{min_count};
+            $param->{max_count} = $max unless $param->{max_count};
+        }
+    }
+
     while (my($k, $v) = each %$param) {
         push @cmd, param2opt($k, $v);
     }
