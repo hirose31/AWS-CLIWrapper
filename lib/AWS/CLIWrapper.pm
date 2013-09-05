@@ -101,13 +101,15 @@ sub _compat_kv {
 sub json { $_[0]->{json} }
 
 sub _execute {
-    my($self, $service, $operation, $param, %opt) = @_;
+    my $self    = shift;
+    my $service = shift;
+    my($operation, $param, %opt) = @_;
     my @cmd = ('aws', @{$self->{opt}}, $service, $operation);
 
-    # compat: ec2 run-instances
-    # >= 0.14.0 : --count N or --count MIN:MAX
-    # <  0.14.0 : --min-count N and --max-count N
     if ($service eq 'ec2' && $operation eq 'run-instances') {
+        # compat: ec2 run-instances
+        # >= 0.14.0 : --count N or --count MIN:MAX
+        # <  0.14.0 : --min-count N and --max-count N
         if (__PACKAGE__->awscli_version >= 0.14.0) {
             my($min,$max) = (1,1);
             for my $hk (keys %$param) {
@@ -130,6 +132,12 @@ sub _execute {
             $param->{min_count} = $min unless $param->{min_count};
             $param->{max_count} = $max unless $param->{max_count};
         }
+    } elsif ($service eq 's3' && __PACKAGE__->awscli_version >= 0.15.0) {
+        if ($operation !~ /^(?:cp|ls|mb|mv|rb|rm|sync)$/) {
+            return $self->s3api(@_);
+        }
+    } elsif ($service eq 's3api' && __PACKAGE__->awscli_version < 0.15.0) {
+        return $self->s3(@_);
     }
 
     while (my($k, $v) = each %$param) {
