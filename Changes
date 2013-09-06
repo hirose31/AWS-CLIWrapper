@@ -1,5 +1,33 @@
 Revision history for AWS::CLIWrapper
 
+1.00  2013-09-06
+    [NEW FEATURES]
+        - Officially AWS::CLIWrapper supports awscli/1.0.0
+    [INCOMPATIBLE CHANGES]
+        - There are several incompatible changes in between old and
+          new awscli. AWS::CLIWrapper supports scripts written for old
+          awscli syntax as much as possible. Don't blame me... :p
+        - awscli >= 0.14.0 requires upper-case parameters "Key",
+          "Values", "Value", "Name" in such --filter. But < 1.14.0
+          requires lower-case parameters "key", "values", "value",
+         "name". So AWS::CLIWrapper converts upper/lower-case by
+         version of awscli.
+        - awscli >= 0.14.0 requires --count pramter in ec2
+          run-instances, but < 0.14.0 requires --min-count and
+          --max-count. So AWS::CLIWrapper converts these parameters by
+          version of awscli
+        - awscli >= 0.15.0 changed "s3" to "s3api" and "s3" became
+          another command... So AWS::CLIWrapper calls "s3api"
+          internally instead of "s3" if awscli >= 0.15.0 and
+          subcommand seems to old "s3"'s one(--list-buckets,
+          --put-object and so on), and calls "s3" instead of "s3api"
+          if awscli < 0.15.0.
+        - I gave up to work around incompatible changes in type of
+          returned data structure. For example, awscli 1.0.0
+          "elb describe-load-balancers" returns hash, on the other
+          hand, awscli 0.9.3 returns list. Please upgrade awscli
+          carefully.
+
 0.09  2013-09-02
   * Update document on nofork and timeout (thanks @mschrader)
   * Add some methods for aws-cli/0.16.0
