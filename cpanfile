@@ -1,3 +1,5 @@
+# -*- mode: cperl -*-
+
 requires 'IPC::Cmd';
 requires 'JSON', '2';
 requires 'perl', '5.005';
@@ -15,4 +17,6 @@ on test => sub {
 on develop => sub {
     requires 'Test::Dependencies';
     requires 'Test::Perl::Critic';
+    requires 'Test::LocalFunctions';
+    requires 'Test::UsedModules';
 };
