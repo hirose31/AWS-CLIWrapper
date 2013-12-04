@@ -19,4 +19,5 @@ on develop => sub {
     requires 'Test::Perl::Critic';
     requires 'Test::LocalFunctions';
     requires 'Test::UsedModules';
+    requires 'File::Temp';
 };

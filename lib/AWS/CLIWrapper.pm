@@ -58,7 +58,7 @@ sub param2opt {
     my $type = ref $v;
     if (! $type) {
         if ($k eq '--output-file') {
-            # aws s3 get-object takes a single arg for output file path
+            # aws s3api get-object takes a single arg for output file path
             return $v;
         } else {
             push @v, $v;
@@ -118,8 +118,13 @@ sub json { $_[0]->{json} }
 sub _execute {
     my $self    = shift;
     my $service = shift;
-    my($operation, $param, %opt) = @_;
+    my $operation = shift;
     my @cmd = ('aws', @{$self->{opt}}, $service, $operation);
+    if (ref($_[0]) eq 'ARRAY') {
+        # for s3 sync FROM TO
+        push @cmd, @{ shift @_ };
+    }
+    my($param, %opt) = @_;
 
     if ($service eq 'ec2' && $operation eq 'run-instances') {
         # compat: ec2 run-instances
@@ -148,7 +153,7 @@ sub _execute {
             $param->{max_count} = $max unless $param->{max_count};
         }
     } elsif ($service eq 's3' && __PACKAGE__->awscli_version >= 0.15.0) {
-        if ($operation !~ /^(?:cp|ls|mb|mv|rb|rm|sync)$/) {
+        if ($operation !~ /^(?:cp|ls|mb|mv|rb|rm|sync|website)$/) {
             return $self->s3api(@_);
         }
     } elsif ($service eq 's3api' && __PACKAGE__->awscli_version < 0.15.0) {
@@ -195,7 +200,7 @@ sub _execute {
         };
         if ($@) {
             warn $@ if $ENV{AWSCLI_DEBUG};
-            return $json;
+            return $json || 'success';
         }
         return $ret;
     } else {
@@ -339,7 +344,7 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<route53>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<s3>($operation:Str, $param:HashRef, %opt:Hash)
+=item B<s3>($operation:Str, $path:ArrayRef, $param:HashRef, %opt:Hash)
 
 =item B<s3api>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -375,9 +380,9 @@ You can specify C<(boolean)> parameter by C<$AWS::CLIWrapper::true> or C<$AWS::C
         allow_reassignment   => $AWS::CLIWrapper::true,
        })
 
-Special case: several OPERATIONs take a single arg. For example "aws s3 get-object ... output_file". In this case, You can specify below using C<output_file> key:
+Special case: several OPERATIONs take a single arg. For example "aws s3api get-object ... output_file". In this case, You can specify below using C<output_file> key:
 
-    my $res = $aws->s3('get-object', {
+    my $res = $aws->s3api('get-object', {
         bucket      => 'my-bucket',
         key         => 'blahblahblah',
         output_file => '/path/to/output/file',
