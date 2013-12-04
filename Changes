@@ -1,5 +1,10 @@
 Revision history for AWS::CLIWrapper
 
+1.01  2013-12-04
+    [NEW FEATURES]
+        - Support 3 or more parameters for s3
+          eg: s3 sync from to
+
 1.00  2013-09-06
     [NEW FEATURES]
         - Officially AWS::CLIWrapper supports awscli/1.0.0
