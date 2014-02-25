@@ -388,6 +388,12 @@ Special case: several OPERATIONs take a single arg. For example "aws s3api get-o
         output_file => '/path/to/output/file',
     })
 
+Special case: s3 OPERATION takes one or two arguments in addition to options. For example "aws s3 cp LocalPath s3://S3Path". Pass an extra ARRAYREF to the s3 method in this case:
+
+    my $res = $aws->s3('cp', ['LocalPath', 's3://S3Path'], {
+        exclude     => '*.bak',
+    })
+
 Third arg "opt" is optional. Available key/values are below:
 
   timeout => Int
