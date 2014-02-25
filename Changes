@@ -1,5 +1,10 @@
 Revision history for AWS::CLIWrapper
 
+1.02  2014-02-25
+    [DOCUMENTATION]
+        - Update the POD to include a special case for the s3 OPERATION.
+          (Thanks: @Yuryu)
+
 1.01  2013-12-04
     [NEW FEATURES]
         - Support 3 or more parameters for s3
