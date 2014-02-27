@@ -8,6 +8,7 @@ our $VERSION = 'y';
 use version;
 use JSON 2;
 use IPC::Cmd;
+use String::ShellQuote;
 
 our $Error = { Message => '', Code => '' };
 
@@ -77,7 +78,6 @@ sub param2opt {
         push @v, $v;
     }
 
-    @v = map { qq{'$_'} } @v;
     return ($k, @v);
 }
 
@@ -163,6 +163,7 @@ sub _execute {
     while (my($k, $v) = each %$param) {
         push @cmd, param2opt($k, $v);
     }
+    @cmd = map { shell_quote($_) } @cmd;
     warn "cmd: ".join(' ', @cmd) if $ENV{AWSCLI_DEBUG};
 
     my $ret;
