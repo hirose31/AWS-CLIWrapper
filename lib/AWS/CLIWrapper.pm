@@ -154,10 +154,10 @@ sub _execute {
         }
     } elsif ($service eq 's3' && __PACKAGE__->awscli_version >= 0.15.0) {
         if ($operation !~ /^(?:cp|ls|mb|mv|rb|rm|sync|website)$/) {
-            return $self->s3api(@_);
+            return $self->s3api($operation, @_);
         }
     } elsif ($service eq 's3api' && __PACKAGE__->awscli_version < 0.15.0) {
-        return $self->s3(@_);
+        return $self->s3($operation, @_);
     }
 
     while (my($k, $v) = each %$param) {
