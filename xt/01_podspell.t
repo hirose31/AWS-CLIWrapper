@@ -15,3 +15,6 @@ param
 awscli
 botocore
 OPERATIONs
+LocalPath
+api
+cp
