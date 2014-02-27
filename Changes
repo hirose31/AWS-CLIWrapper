@@ -1,5 +1,11 @@
 Revision history for AWS::CLIWrapper
 
+1.03  2014-02-27
+    [BUG FIXES]
+        - Escape all arguments before execute by IPC::Cmd
+          (Suggested by: @Yuryu #4)
+        - Fix bug in passing operation to s3 or s3api for compatibility old aws-cli
+
 1.02  2014-02-25
     [DOCUMENTATION]
         - Update the POD to include a special case for the s3 OPERATION.
