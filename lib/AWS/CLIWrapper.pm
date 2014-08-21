@@ -231,11 +231,19 @@ sub _execute {
     }
 }
 
-# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; next if $_ eq 'help'; printf "sub %-18s { shift->_execute('"'"'%s'"'"', \@_) }\n", $_, $_ }'
-# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; next if $_ eq 'help'; printf "=item B<%s>(\$operation:Str, \$param:HashRef, %%opt:Hash)\n\n", $_}'
+# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; next if $_ eq 'help'; my $sn = $_; $sn =~ s/-/_/g; printf "sub %-18s { shift->_execute('"'"'%s'"'"', \@_) }\n", $sn, $_ }'
+# aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; next if $_ eq 'help'; my $sn = $_; $sn =~ s/-/_/g; printf "=item B<%s>(\$operation:Str, \$param:HashRef, %%opt:Hash)\n\n", $sn}'
+# =item B<s3>($operation:Str, $path:ArrayRef, $param:HashRef, %opt:Hash)
 sub autoscaling        { shift->_execute('autoscaling', @_) }
 sub cloudformation     { shift->_execute('cloudformation', @_) }
+sub cloudsearch        { shift->_execute('cloudsearch', @_) }
+sub cloudsearchdomain  { shift->_execute('cloudsearchdomain', @_) }
+sub cloudtrail         { shift->_execute('cloudtrail', @_) }
 sub cloudwatch         { shift->_execute('cloudwatch', @_) }
+sub cognito_identity   { shift->_execute('cognito-identity', @_) }
+sub cognito_sync       { shift->_execute('cognito-sync', @_) }
+sub configure          { shift->_execute('configure', @_) }
+sub datapipeline       { shift->_execute('datapipeline', @_) }
 sub directconnect      { shift->_execute('directconnect', @_) }
 sub dynamodb           { shift->_execute('dynamodb', @_) }
 sub ec2                { shift->_execute('ec2', @_) }
@@ -243,12 +251,16 @@ sub elasticache        { shift->_execute('elasticache', @_) }
 sub elasticbeanstalk   { shift->_execute('elasticbeanstalk', @_) }
 sub elastictranscoder  { shift->_execute('elastictranscoder', @_) }
 sub elb                { shift->_execute('elb', @_) }
+sub emr                { shift->_execute('emr', @_) }
 sub iam                { shift->_execute('iam', @_) }
 sub importexport       { shift->_execute('importexport', @_) }
+sub kinesis            { shift->_execute('kinesis', @_) }
+sub logs               { shift->_execute('logs', @_) }
 sub opsworks           { shift->_execute('opsworks', @_) }
 sub rds                { shift->_execute('rds', @_) }
 sub redshift           { shift->_execute('redshift', @_) }
 sub route53            { shift->_execute('route53', @_) }
+sub route53domains     { shift->_execute('route53domains', @_) }
 sub s3                 { shift->_execute('s3', @_) }
 sub s3api              { shift->_execute('s3api', @_) }
 sub ses                { shift->_execute('ses', @_) }
@@ -317,7 +329,21 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<cloudformation>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<cloudsearch>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<cloudsearchdomain>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<cloudtrail>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<cloudwatch>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<cognito_identity>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<cognito_sync>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<configure>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<datapipeline>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<directconnect>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -333,9 +359,15 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<elb>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<emr>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<iam>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<importexport>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<kinesis>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<logs>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<opsworks>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -345,7 +377,9 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<route53>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<s3>($operation:Str, $path:ArrayRef, $param:HashRef, %opt:Hash)
+=item B<route53domains>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<s3>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<s3api>($operation:Str, $param:HashRef, %opt:Hash)
 
