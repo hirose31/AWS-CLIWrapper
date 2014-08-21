@@ -1,5 +1,9 @@
 Revision history for AWS::CLIWrapper
 
+1.04  2014-08-21
+    [IMPROVEMENTS]
+        - Add some services (cloudsearch, cloudsearchdomain, cloudtrail, cognito_identity, cognito_sync, configure, datapipeline, emr, kinesis, logs, route53domains) with aws-cli/1.4.2
+
 1.03  2014-02-27
     [BUG FIXES]
         - Escape all arguments before execute by IPC::Cmd
