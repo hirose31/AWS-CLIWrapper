@@ -313,6 +313,8 @@ AWS::CLIWrapper is wrapper module for aws-cli (recommend: awscli >= 1.0.0, requi
 
 AWS::CLIWrapper is a just wrapper module, so you can do everything what you can do with aws-cli.
 
+See note below about making sure AWS credentials are accessible (especially under crond)
+
 =head1 METHODS
 
 =over 4
@@ -336,6 +338,10 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<cloudtrail>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cloudwatch>($operation:Str, $param:HashRef, %opt:Hash)
+
+=head2 Caveat Emptor - cloudwatch
+Some aws commands (ex: cloudwatch put-metric-data) output nothing on success or failure.
+This module assumes no output = success, on cloudwatch (in particular) this is an incorrect assumption.
 
 =item B<cognito_identity>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -443,6 +449,11 @@ Third arg "opt" is optional. Available key/values are below:
 =head1 ENVIRONMENT
 
 =over 4
+
+=item HOME: used by default by /usr/bin/aws utility to find it's credentials (if none are specified)
+
+Special note: cron on Linux will often have a different HOME "/" instead of "/root" - set $ENV{'HOME'} 
+to use the default credentials or specify $ENV{'AWS_CONFIG_FILE'} directly. 
 
 =item AWS_CONFIG_FILE
 
