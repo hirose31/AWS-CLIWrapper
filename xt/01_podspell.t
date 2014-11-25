@@ -18,3 +18,6 @@ OPERATIONs
 LocalPath
 api
 cp
+Emptor
+cloudwatch
+crond

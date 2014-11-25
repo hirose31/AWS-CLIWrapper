@@ -161,7 +161,12 @@ sub _execute {
     }
 
     while (my($k, $v) = each %$param) {
-        push @cmd, param2opt($k, $v);
+        my @o = param2opt($k, $v);
+        if ($service eq 's3' && $k =~ /^(?:include|exclude)$/) {
+            my $optk = shift @o;
+            @o = map { $optk => $_ } @o;
+        }
+        push @cmd, @o;
     }
     @cmd = map { shell_quote($_) } @cmd;
     warn "cmd: ".join(' ', @cmd) if $ENV{AWSCLI_DEBUG};
@@ -242,8 +247,10 @@ sub cloudtrail         { shift->_execute('cloudtrail', @_) }
 sub cloudwatch         { shift->_execute('cloudwatch', @_) }
 sub cognito_identity   { shift->_execute('cognito-identity', @_) }
 sub cognito_sync       { shift->_execute('cognito-sync', @_) }
+sub configservice      { shift->_execute('configservice', @_) }
 sub configure          { shift->_execute('configure', @_) }
 sub datapipeline       { shift->_execute('datapipeline', @_) }
+sub deploy             { shift->_execute('deploy', @_) }
 sub directconnect      { shift->_execute('directconnect', @_) }
 sub dynamodb           { shift->_execute('dynamodb', @_) }
 sub ec2                { shift->_execute('ec2', @_) }
@@ -255,6 +262,8 @@ sub emr                { shift->_execute('emr', @_) }
 sub iam                { shift->_execute('iam', @_) }
 sub importexport       { shift->_execute('importexport', @_) }
 sub kinesis            { shift->_execute('kinesis', @_) }
+sub kms                { shift->_execute('kms', @_) }
+sub lambda             { shift->_execute('lambda', @_) }
 sub logs               { shift->_execute('logs', @_) }
 sub opsworks           { shift->_execute('opsworks', @_) }
 sub rds                { shift->_execute('rds', @_) }
@@ -339,17 +348,17 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<cloudwatch>($operation:Str, $param:HashRef, %opt:Hash)
 
-=head2 Caveat Emptor - cloudwatch
-Some aws commands (ex: cloudwatch put-metric-data) output nothing on success or failure.
-This module assumes no output = success, on cloudwatch (in particular) this is an incorrect assumption.
-
 =item B<cognito_identity>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cognito_sync>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<configservice>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<configure>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<datapipeline>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<deploy>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<directconnect>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -373,6 +382,10 @@ This module assumes no output = success, on cloudwatch (in particular) this is a
 
 =item B<kinesis>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<kms>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<lambda>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<logs>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<opsworks>($operation:Str, $param:HashRef, %opt:Hash)
@@ -385,7 +398,7 @@ This module assumes no output = success, on cloudwatch (in particular) this is a
 
 =item B<route53domains>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<s3>($operation:Str, $param:HashRef, %opt:Hash)
+=item B<s3>($operation:Str, $path:ArrayRef, $param:HashRef, %opt:Hash)
 
 =item B<s3api>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -433,6 +446,12 @@ Special case: s3 OPERATION takes one or two arguments in addition to options. Fo
 
     my $res = $aws->s3('cp', ['LocalPath', 's3://S3Path'], {
         exclude     => '*.bak',
+    })
+
+Special case: s3 OPERATION can take --include and --exclude option multiple times. For example "aws s3 sync --exclude 'foo' --exclude 'bar' LocalPath s3://S3Path", Pass ARRAYREF as value of C<include> or C<exclude> in this case:
+
+    my $res = $aws->s3('sync', ['LocalPath', 's3://S3Path'], {
+        exclude     => ['foo', 'bar'],
     })
 
 Third arg "opt" is optional. Available key/values are below:
