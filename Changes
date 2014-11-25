@@ -1,5 +1,9 @@
 Revision history for AWS::CLIWrapper
 
+1.06  2014-11-25
+    [IMPROVEMENTS]
+        - s3 OPERATION can take --include or --exclude option multiple times
+
 1.05  2014-09-29
     [DOCUMENTATION]
         - Added LFMF details! (PR #7)
