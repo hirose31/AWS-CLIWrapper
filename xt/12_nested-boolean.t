@@ -21,7 +21,7 @@ $res = $aws->ec2('run-instances', {
             DeviceIndex              => 0,
             SubnetId                 => 'subnet-a05639c8',
             PrivateIpAddress         => "10.0.0.240",
-            Groups                   => [ 'sg-a59776ca' ],
+            Groups                   => [ 'sg-3197765e' ],
             AssociatePublicIpAddress => JSON::true, # not $AWS::CLIWrapper::true,
         },
     ],
