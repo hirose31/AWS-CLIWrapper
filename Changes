@@ -1,5 +1,9 @@
 Revision history for AWS::CLIWrapper
 
+1.07  2015-07-21
+    [IMPROVEMENTS]
+        - Don't execute aws command in load phase
+
 1.06  2014-11-25
     [IMPROVEMENTS]
         - s3 OPERATION can take --include or --exclude option multiple times
