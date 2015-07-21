@@ -15,16 +15,7 @@ our $Error = { Message => '', Code => '' };
 our $true  = do { bless \(my $dummy = 1), "AWS::CLIWrapper::Boolean" };
 our $false = do { bless \(my $dummy = 0), "AWS::CLIWrapper::Boolean" };
 
-my $AWSCLI_VERSION = do {
-    my $vs = qx(aws --version 2>&1) || '';
-    my $v;
-    if ($vs =~ m{/([0-9.]+)\s}) {
-        $v = $1;
-    } else {
-        $v = 0;
-    }
-    version->parse($v);
-};
+my $AWSCLI_VERSION = undef;
 
 sub new {
     my($class, %param) = @_;
@@ -45,6 +36,18 @@ sub new {
 }
 
 sub awscli_version {
+    unless (defined $AWSCLI_VERSION) {
+        $AWSCLI_VERSION = do {
+            my $vs = qx(aws --version 2>&1) || '';
+            my $v;
+            if ($vs =~ m{/([0-9.]+)\s}) {
+                $v = $1;
+            } else {
+                $v = 0;
+            }
+            version->parse($v);
+        };
+    }
     return $AWSCLI_VERSION;
 }
 
@@ -97,21 +100,22 @@ sub _compat_kv_uc {
 
     return $v;
 }
-sub _compat_kv_lc {
-    my $v = shift;
-    my $type = ref $v;
+# sub _compat_kv_lc {
+#     my $v = shift;
+#     my $type = ref $v;
 
-    if ($type && $type eq 'HASH') {
-        for my $hk (keys %$v) {
-            if ($hk =~ /^(?:Key|Name|Values|Values)$/) {
-                $v->{lc($hk)} = delete $v->{$hk};
-            }
-        }
-    }
+#     if ($type && $type eq 'HASH') {
+#         for my $hk (keys %$v) {
+#             if ($hk =~ /^(?:Key|Name|Values|Values)$/) {
+#                 $v->{lc($hk)} = delete $v->{$hk};
+#             }
+#         }
+#     }
 
-    return $v;
-}
-*_compat_kv = __PACKAGE__->awscli_version >= 0.14.0 ? *_compat_kv_uc : *_compat_kv_lc;
+#     return $v;
+# }
+# Drop support < 0.14.0 for preventing execute aws command in loading this module
+*_compat_kv = *_compat_kv_uc;
 
 sub json { $_[0]->{json} }
 
@@ -318,7 +322,7 @@ AWS::CLIWrapper - Wrapper module for aws-cli
 
 =head1 DESCRIPTION
 
-AWS::CLIWrapper is wrapper module for aws-cli (recommend: awscli >= 1.0.0, requires: >= 0.7.0).
+AWS::CLIWrapper is wrapper module for aws-cli (recommend: awscli >= 1.0.0, requires: >= 0.40.0).
 
 AWS::CLIWrapper is a just wrapper module, so you can do everything what you can do with aws-cli.
 
