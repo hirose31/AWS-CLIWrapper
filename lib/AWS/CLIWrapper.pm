@@ -3,7 +3,7 @@ package AWS::CLIWrapper;
 use strict;
 use warnings;
 
-our $VERSION = '1.07';
+our $VERSION = '1.08';
 
 use version;
 use JSON 2;

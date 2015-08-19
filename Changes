@@ -1,5 +1,9 @@
 Revision history for AWS::CLIWrapper
 
+1.08  2015-08-19
+    [IMPROVEMENTS]
+        - write stdout/stderr message in debug mode (PR #8 by @limitusus)
+
 1.07  2015-07-21
     [IMPROVEMENTS]
         - Don't execute aws command in load phase
