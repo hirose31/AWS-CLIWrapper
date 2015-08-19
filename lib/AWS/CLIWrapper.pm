@@ -209,7 +209,11 @@ sub _execute {
             $self->json->decode_prefix($json);
         };
         if ($@) {
-            warn $@ if $ENV{AWSCLI_DEBUG};
+            if ($ENV{AWSCLI_DEBUG}) {
+                warn $@;
+                warn qq|stdout: "$ret->{stdout}"|;
+                warn qq|err_msg: "$ret->{err_msg}"|;
+            }
             return $json || 'success';
         }
         return $ret;
