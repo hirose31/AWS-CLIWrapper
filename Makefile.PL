@@ -25,6 +25,7 @@ my %WriteMakefileArgs = (
         "Test::More" => 0
     },
     "VERSION_FROM" => "lib/AWS/CLIWrapper.pm",
+    "MIN_PERL_VERSION" => 5.008001,
     "test" => {
         "TESTS" => "t/*.t"
     }
@@ -54,6 +55,9 @@ unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
         }
     }
 }
+
+delete $WriteMakefileArgs{MIN_PERL_VERSION}
+    unless eval { ExtUtils::MakeMaker->VERSION(6.48) };
 
 delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
     unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
