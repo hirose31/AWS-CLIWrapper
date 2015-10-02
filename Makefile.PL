@@ -26,6 +26,16 @@ my %WriteMakefileArgs = (
     },
     "VERSION_FROM" => "lib/AWS/CLIWrapper.pm",
     "MIN_PERL_VERSION" => 5.008001,
+    "META_MERGE" => {
+        'meta-spec' => { version => 2 },
+        resources => {
+            repository  => {
+                type => 'git',
+                web  => 'https://github.com/hirose31/AWS-CLIWrapper',
+                url  => 'https://github.com/hirose31/AWS-CLIWrapper.git',
+            },
+        },
+    },
     "test" => {
         "TESTS" => "t/*.t"
     }
@@ -55,6 +65,9 @@ unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
         }
     }
 }
+
+delete $WriteMakefileArgs{META_MERGE}
+    unless eval { ExtUtils::MakeMaker->VERSION(6.48) };
 
 delete $WriteMakefileArgs{MIN_PERL_VERSION}
     unless eval { ExtUtils::MakeMaker->VERSION(6.48) };
