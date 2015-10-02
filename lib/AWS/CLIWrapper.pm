@@ -124,6 +124,9 @@ sub _execute {
     my $service = shift;
     my $operation = shift;
     my @cmd = ('aws', @{$self->{opt}}, $service, $operation);
+    if ($service eq 'ec2' && $operation eq 'wait') {
+        push(@cmd, shift @_);
+    }
     if (ref($_[0]) eq 'ARRAY') {
         # for s3 sync FROM TO
         push @cmd, @{ shift @_ };
