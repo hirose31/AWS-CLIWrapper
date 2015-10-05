@@ -1,5 +1,9 @@
 Revision history for AWS::CLIWrapper
 
+1.10  2015-10-??
+        - Specified min perl version both in module and dist metadata
+        - Added github repo to dist metadata
+
 1.09  2015-10-02
     [IMPROVEMENTS]
         - Support ec2 wait (PR #9 by @negachov)
