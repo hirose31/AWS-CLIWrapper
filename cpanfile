@@ -5,10 +5,10 @@ requires 'JSON', '2';
 requires 'String::ShellQuote';
 requires 'perl', '5.005';
 requires 'version';
+requires 'perl', '5.008001';
 
 on configure => sub {
     requires 'ExtUtils::MakeMaker', '6.30';
-    requires 'perl', '5.008001';
 };
 
 on test => sub {
