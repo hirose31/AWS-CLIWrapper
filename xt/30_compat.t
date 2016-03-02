@@ -11,13 +11,19 @@ my $res;
 # <  0.14.0 : key, values, name
 subtest 'Uppercase key, values, name' => sub {
     $res = $aws->ec2('describe-instances', {
-        filters => [{ name => 'tag:Name', values => ["AC-TEST-2*"] }],
+        filters => [
+            { name => 'tag:Name', values => ["AC-TEST-2*"] },
+            { name => 'instance-state-name', values => ['running'] },
+        ],
     });
     ok($res, 'name/values');
     is(scalar(@{$res->{Reservations}}), 1, 'name/values count');
 
     $res = $aws->ec2('describe-instances', {
-        filters => [{ Name => 'tag:Name', Values => ["AC-TEST-2*"] }],
+        filters => [
+            { Name => 'tag:Name', Values => ["AC-TEST-2*"] },
+            { Name => 'instance-state-name', Values => ['running'] },
+        ],
     });
     ok($res, 'name/values');
     is(scalar(@{$res->{Reservations}}), 1, 'name/values count');
