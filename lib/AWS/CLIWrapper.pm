@@ -7,7 +7,7 @@ use warnings;
 our $VERSION = '1.10';
 
 use version;
-use JSON 2;
+use JSON::MaybeXS qw(encode_json);
 use IPC::Cmd;
 use String::ShellQuote;
 
@@ -30,7 +30,7 @@ sub new {
 
     my $self = bless {
         opt  => \@opt,
-        json => JSON->new,
+        json => JSON::MaybeXS->new,
     }, $class;
 
     return $self;
@@ -179,12 +179,17 @@ sub _execute {
     @cmd = map { shell_quote($_) } @cmd;
     warn "cmd: ".join(' ', @cmd) if $ENV{AWSCLI_DEBUG};
 
+    my $default_cmd_timeout = 30;
+    if( $operation eq 'wait' ){
+        $default_cmd_timeout = 60 * 60;
+    }
+
     my $ret;
     if (exists $opt{'nofork'} && $opt{'nofork'}) {
         # better for perl debugger
         my($ok, $err, $buf, $stdout_buf, $stderr_buf) = IPC::Cmd::run(
             command => join(' ', @cmd),
-            timeout => $opt{timeout} || 30,
+            timeout => $opt{timeout} || $default_cmd_timeout,
         );
         $ret->{stdout} = join "", @$stdout_buf;
         $ret->{err_msg} = (defined $err ? "$err\n" : "") . join "", @$stderr_buf;
@@ -198,7 +203,7 @@ sub _execute {
         print "";
     } else {
         $ret = IPC::Cmd::run_forked(join(' ', @cmd), {
-            timeout => $opt{timeout} || 30,
+            timeout => $opt{timeout} || $default_cmd_timeout,
         });
     }
 
@@ -251,32 +256,54 @@ sub _execute {
 # aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; next if $_ eq 'help'; my $sn = $_; $sn =~ s/-/_/g; printf "sub %-18s { shift->_execute('"'"'%s'"'"', \@_) }\n", $sn, $_ }'
 # aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; next if $_ eq 'help'; my $sn = $_; $sn =~ s/-/_/g; printf "=item B<%s>(\$operation:Str, \$param:HashRef, %%opt:Hash)\n\n", $sn}'
 # =item B<s3>($operation:Str, $path:ArrayRef, $param:HashRef, %opt:Hash)
+sub acm                { shift->_execute('acm', @_) }
+sub apigateway         { shift->_execute('apigateway', @_) }
 sub autoscaling        { shift->_execute('autoscaling', @_) }
 sub cloudformation     { shift->_execute('cloudformation', @_) }
+sub cloudfront         { shift->_execute('cloudfront', @_) }
+sub cloudhsm           { shift->_execute('cloudhsm', @_) }
 sub cloudsearch        { shift->_execute('cloudsearch', @_) }
 sub cloudsearchdomain  { shift->_execute('cloudsearchdomain', @_) }
 sub cloudtrail         { shift->_execute('cloudtrail', @_) }
 sub cloudwatch         { shift->_execute('cloudwatch', @_) }
+sub codecommit         { shift->_execute('codecommit', @_) }
+sub codepipeline       { shift->_execute('codepipeline', @_) }
 sub cognito_identity   { shift->_execute('cognito-identity', @_) }
 sub cognito_sync       { shift->_execute('cognito-sync', @_) }
 sub configservice      { shift->_execute('configservice', @_) }
 sub configure          { shift->_execute('configure', @_) }
 sub datapipeline       { shift->_execute('datapipeline', @_) }
 sub deploy             { shift->_execute('deploy', @_) }
+sub devicefarm         { shift->_execute('devicefarm', @_) }
 sub directconnect      { shift->_execute('directconnect', @_) }
+sub ds                 { shift->_execute('ds', @_) }
 sub dynamodb           { shift->_execute('dynamodb', @_) }
+sub dynamodbstreams    { shift->_execute('dynamodbstreams', @_) }
 sub ec2                { shift->_execute('ec2', @_) }
+sub ecr                { shift->_execute('ecr', @_) }
+sub ecs                { shift->_execute('ecs', @_) }
+sub efs                { shift->_execute('efs', @_) }
 sub elasticache        { shift->_execute('elasticache', @_) }
 sub elasticbeanstalk   { shift->_execute('elasticbeanstalk', @_) }
 sub elastictranscoder  { shift->_execute('elastictranscoder', @_) }
 sub elb                { shift->_execute('elb', @_) }
 sub emr                { shift->_execute('emr', @_) }
+sub es                 { shift->_execute('es', @_) }
+sub events             { shift->_execute('events', @_) }
+sub firehose           { shift->_execute('firehose', @_) }
+sub gamelift           { shift->_execute('gamelift', @_) }
+sub glacier            { shift->_execute('glacier', @_) }
 sub iam                { shift->_execute('iam', @_) }
 sub importexport       { shift->_execute('importexport', @_) }
+sub inspector          { shift->_execute('inspector', @_) }
+sub iot                { shift->_execute('iot', @_) }
+sub iot_data           { shift->_execute('iot-data', @_) }
 sub kinesis            { shift->_execute('kinesis', @_) }
 sub kms                { shift->_execute('kms', @_) }
 sub lambda             { shift->_execute('lambda', @_) }
 sub logs               { shift->_execute('logs', @_) }
+sub machinelearning    { shift->_execute('machinelearning', @_) }
+sub marketplacecommerceanalytics { shift->_execute('marketplacecommerceanalytics', @_) }
 sub opsworks           { shift->_execute('opsworks', @_) }
 sub rds                { shift->_execute('rds', @_) }
 sub redshift           { shift->_execute('redshift', @_) }
@@ -284,13 +311,17 @@ sub route53            { shift->_execute('route53', @_) }
 sub route53domains     { shift->_execute('route53domains', @_) }
 sub s3                 { shift->_execute('s3', @_) }
 sub s3api              { shift->_execute('s3api', @_) }
+sub sdb                { shift->_execute('sdb', @_) }
 sub ses                { shift->_execute('ses', @_) }
 sub sns                { shift->_execute('sns', @_) }
 sub sqs                { shift->_execute('sqs', @_) }
+sub ssm                { shift->_execute('ssm', @_) }
 sub storagegateway     { shift->_execute('storagegateway', @_) }
 sub sts                { shift->_execute('sts', @_) }
 sub support            { shift->_execute('support', @_) }
 sub swf                { shift->_execute('swf', @_) }
+sub waf                { shift->_execute('waf', @_) }
+sub workspaces         { shift->_execute('workspaces', @_) }
 
 1;
 
@@ -305,18 +336,18 @@ AWS::CLIWrapper - Wrapper module for aws-cli
 =head1 SYNOPSIS
 
     use AWS::CLIWrapper;
-    
+
     my $aws = AWS::CLIWrapper->new(
         region => 'us-west-1',
     );
-    
+
     my $res = $aws->ec2(
         'describe-instances' => {
             instance_ids => ['i-XXXXX', 'i-YYYYY'],
         },
         timeout => 18, # optional. default is 30 seconds
     );
-    
+
     if ($res) {
         for my $rs ( @{ $res->{Reservations} }) {
             for my $is (@{ $rs->{Instances} }) {
@@ -348,9 +379,17 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
     profile      profile_name:Str
     endpoint_url endpoint_url:Str
 
+=item B<acm>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<apigateway>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<autoscaling>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cloudformation>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<cloudfront>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<cloudhsm>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cloudsearch>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -359,6 +398,10 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<cloudtrail>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cloudwatch>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<codecommit>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<codepipeline>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cognito_identity>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -372,11 +415,23 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<deploy>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<devicefarm>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<directconnect>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<ds>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<dynamodb>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<dynamodbstreams>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<ec2>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<ecr>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<ecs>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<efs>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<elasticache>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -388,9 +443,25 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<emr>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<es>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<events>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<firehose>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<gamelift>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<glacier>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<iam>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<importexport>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<inspector>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<iot>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<iot_data>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<kinesis>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -399,6 +470,10 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<lambda>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<logs>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<machinelearning>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<marketplacecommerceanalytics>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<opsworks>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -414,11 +489,15 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<s3api>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<sdb>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<ses>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<sns>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<sqs>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<ssm>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<storagegateway>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -427,6 +506,11 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<support>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<swf>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<waf>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<workspaces>($operation:Str, $param:HashRef, %opt:Hash)
+
 
 AWS::CLIWrapper provides methods same as services of aws-cli. Please refer to `aws help`.
 
@@ -483,8 +567,8 @@ Third arg "opt" is optional. Available key/values are below:
 
 =item HOME: used by default by /usr/bin/aws utility to find it's credentials (if none are specified)
 
-Special note: cron on Linux will often have a different HOME "/" instead of "/root" - set $ENV{'HOME'} 
-to use the default credentials or specify $ENV{'AWS_CONFIG_FILE'} directly. 
+Special note: cron on Linux will often have a different HOME "/" instead of "/root" - set $ENV{'HOME'}
+to use the default credentials or specify $ENV{'AWS_CONFIG_FILE'} directly.
 
 =item AWS_CONFIG_FILE
 

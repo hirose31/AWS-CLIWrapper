@@ -18,7 +18,7 @@ my %WriteMakefileArgs = (
     "PREREQ_PM" => {
         "IPC::Cmd"   => 0,
         "String::ShellQuote" => 0,
-        "JSON"       => "2",
+        "JSON::MaybeXS" => 0,
         "version"    => "0.77",
     },
     "TEST_REQUIRES" => {
