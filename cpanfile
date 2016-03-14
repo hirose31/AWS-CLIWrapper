@@ -1,7 +1,7 @@
 # -*- mode: cperl -*-
 
 requires 'IPC::Cmd';
-requires 'JSON', '2';
+requires 'JSON::MaybeXS';
 requires 'String::ShellQuote';
 requires 'perl', '5.005';
 requires 'version';

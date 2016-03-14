@@ -7,7 +7,7 @@ use warnings;
 our $VERSION = '1.10';
 
 use version;
-use JSON 2;
+use JSON::MaybeXS qw(encode_json);
 use IPC::Cmd;
 use String::ShellQuote;
 
@@ -30,7 +30,7 @@ sub new {
 
     my $self = bless {
         opt  => \@opt,
-        json => JSON->new,
+        json => JSON::MaybeXS->new,
     }, $class;
 
     return $self;
