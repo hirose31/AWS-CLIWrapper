@@ -179,12 +179,17 @@ sub _execute {
     @cmd = map { shell_quote($_) } @cmd;
     warn "cmd: ".join(' ', @cmd) if $ENV{AWSCLI_DEBUG};
 
+    my $default_cmd_timeout = 30;
+    if( $operation eq 'wait' ){
+        $default_cmd_timeout = 60 * 60;
+    }
+
     my $ret;
     if (exists $opt{'nofork'} && $opt{'nofork'}) {
         # better for perl debugger
         my($ok, $err, $buf, $stdout_buf, $stderr_buf) = IPC::Cmd::run(
             command => join(' ', @cmd),
-            timeout => $opt{timeout} || 30,
+            timeout => $opt{timeout} || $default_cmd_timeout,
         );
         $ret->{stdout} = join "", @$stdout_buf;
         $ret->{err_msg} = (defined $err ? "$err\n" : "") . join "", @$stderr_buf;
@@ -198,7 +203,7 @@ sub _execute {
         print "";
     } else {
         $ret = IPC::Cmd::run_forked(join(' ', @cmd), {
-            timeout => $opt{timeout} || 30,
+            timeout => $opt{timeout} || $default_cmd_timeout,
         });
     }
 
