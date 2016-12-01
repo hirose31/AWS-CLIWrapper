@@ -1,6 +1,11 @@
 Revision history for AWS::CLIWrapper
 
+1.11  2016-12-01
+    [IMPROVEMENTS]
+        - Add servics with aws-cli/1.11.23
+
 1.10  2016-03-15
+    [IMPROVEMENTS]
         - Specified min perl version both in module and dist metadata
         - Added github repo to dist metadata
         - Add servics with aws-cli/1.10.9 (PR #11 by @mithun)
