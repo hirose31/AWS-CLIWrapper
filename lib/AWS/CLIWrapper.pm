@@ -31,9 +31,15 @@ sub new {
     my $self = bless {
         opt  => \@opt,
         json => JSON->new,
+        awscli_path => $param{awscli_path} // 'aws',
     }, $class;
 
     return $self;
+}
+
+sub awscli_path {
+    my ($self) = @_;
+    return $self->{awscli_path};
 }
 
 sub awscli_version {
@@ -124,7 +130,7 @@ sub _execute {
     my $self    = shift;
     my $service = shift;
     my $operation = shift;
-    my @cmd = ('aws', @{$self->{opt}}, $service, $operation);
+    my @cmd = ($self->awscli_path, @{$self->{opt}}, $service, $operation);
     if ($service eq 'ec2' && $operation eq 'wait') {
         push(@cmd, shift @_);
     }
