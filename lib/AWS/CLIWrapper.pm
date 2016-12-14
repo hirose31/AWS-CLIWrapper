@@ -43,9 +43,11 @@ sub awscli_path {
 }
 
 sub awscli_version {
+    my ($self) = @_;
     unless (defined $AWSCLI_VERSION) {
         $AWSCLI_VERSION = do {
-            my $vs = qx(aws --version 2>&1) || '';
+            my $awscli_path = $self->awscli_path;
+            my $vs = qx($awscli_path --version 2>&1) || '';
             my $v;
             if ($vs =~ m{/([0-9.]+)\s}) {
                 $v = $1;
@@ -144,7 +146,7 @@ sub _execute {
         # compat: ec2 run-instances
         # >= 0.14.0 : --count N or --count MIN:MAX
         # <  0.14.0 : --min-count N and --max-count N
-        if (__PACKAGE__->awscli_version >= 0.14.0) {
+        if ($self->awscli_version >= 0.14.0) {
             my($min,$max) = (1,1);
             for my $hk (keys %$param) {
                 if ($hk eq 'min_count') {
@@ -166,11 +168,11 @@ sub _execute {
             $param->{min_count} = $min unless $param->{min_count};
             $param->{max_count} = $max unless $param->{max_count};
         }
-    } elsif ($service eq 's3' && __PACKAGE__->awscli_version >= 0.15.0) {
+    } elsif ($service eq 's3' && $self->awscli_version >= 0.15.0) {
         if ($operation !~ /^(?:cp|ls|mb|mv|rb|rm|sync|website)$/) {
             return $self->s3api($operation, @_);
         }
-    } elsif ($service eq 's3api' && __PACKAGE__->awscli_version < 0.15.0) {
+    } elsif ($service eq 's3api' && $self->awscli_version < 0.15.0) {
         return $self->s3($operation, @_);
     }
 
