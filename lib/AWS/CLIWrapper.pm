@@ -138,7 +138,7 @@ sub _execute {
     }
     if (ref($_[0]) eq 'ARRAY') {
         # for s3 sync FROM TO
-        push @cmd, @{ shift @_ };
+        push @cmd, map { qq{'$_'} } @{ shift @_ };
     }
     my($param, %opt) = @_;
 
