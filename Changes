@@ -1,5 +1,9 @@
 Revision history for AWS::CLIWrapper
 
+1.12  2017-01-12
+    [IMPROVEMENTS]
+        - Make AWS::CLIWrapper take explicit awscli executable path (PR #12 by @aereal)
+
 1.11  2016-12-01
     [IMPROVEMENTS]
         - Add servics with aws-cli/1.11.23
