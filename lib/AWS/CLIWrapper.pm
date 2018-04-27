@@ -262,23 +262,32 @@ sub _execute {
 sub acm                { shift->_execute('acm', @_) }
 sub apigateway         { shift->_execute('apigateway', @_) }
 sub application_autoscaling { shift->_execute('application-autoscaling', @_) }
+sub appstream          { shift->_execute('appstream', @_) }
+sub athena             { shift->_execute('athena', @_) }
 sub autoscaling        { shift->_execute('autoscaling', @_) }
+sub batch              { shift->_execute('batch', @_) }
 sub budgets            { shift->_execute('budgets', @_) }
+sub clouddirectory     { shift->_execute('clouddirectory', @_) }
 sub cloudformation     { shift->_execute('cloudformation', @_) }
 sub cloudfront         { shift->_execute('cloudfront', @_) }
 sub cloudhsm           { shift->_execute('cloudhsm', @_) }
+sub cloudhsmv2         { shift->_execute('cloudhsmv2', @_) }
 sub cloudsearch        { shift->_execute('cloudsearch', @_) }
 sub cloudsearchdomain  { shift->_execute('cloudsearchdomain', @_) }
 sub cloudtrail         { shift->_execute('cloudtrail', @_) }
 sub cloudwatch         { shift->_execute('cloudwatch', @_) }
+sub codebuild          { shift->_execute('codebuild', @_) }
 sub codecommit         { shift->_execute('codecommit', @_) }
 sub codepipeline       { shift->_execute('codepipeline', @_) }
+sub codestar           { shift->_execute('codestar', @_) }
 sub cognito_identity   { shift->_execute('cognito-identity', @_) }
 sub cognito_idp        { shift->_execute('cognito-idp', @_) }
 sub cognito_sync       { shift->_execute('cognito-sync', @_) }
 sub configservice      { shift->_execute('configservice', @_) }
 sub configure          { shift->_execute('configure', @_) }
+sub cur                { shift->_execute('cur', @_) }
 sub datapipeline       { shift->_execute('datapipeline', @_) }
+sub dax                { shift->_execute('dax', @_) }
 sub deploy             { shift->_execute('deploy', @_) }
 sub devicefarm         { shift->_execute('devicefarm', @_) }
 sub directconnect      { shift->_execute('directconnect', @_) }
@@ -302,6 +311,9 @@ sub events             { shift->_execute('events', @_) }
 sub firehose           { shift->_execute('firehose', @_) }
 sub gamelift           { shift->_execute('gamelift', @_) }
 sub glacier            { shift->_execute('glacier', @_) }
+sub glue               { shift->_execute('glue', @_) }
+sub greengrass         { shift->_execute('greengrass', @_) }
+sub health             { shift->_execute('health', @_) }
 sub iam                { shift->_execute('iam', @_) }
 sub importexport       { shift->_execute('importexport', @_) }
 sub inspector          { shift->_execute('inspector', @_) }
@@ -311,16 +323,25 @@ sub kinesis            { shift->_execute('kinesis', @_) }
 sub kinesisanalytics   { shift->_execute('kinesisanalytics', @_) }
 sub kms                { shift->_execute('kms', @_) }
 sub lambda             { shift->_execute('lambda', @_) }
+sub lex_models         { shift->_execute('lex-models', @_) }
+sub lex_runtime        { shift->_execute('lex-runtime', @_) }
 sub lightsail          { shift->_execute('lightsail', @_) }
 sub logs               { shift->_execute('logs', @_) }
 sub machinelearning    { shift->_execute('machinelearning', @_) }
+sub marketplace_entitlement { shift->_execute('marketplace-entitlement', @_) }
 sub marketplacecommerceanalytics { shift->_execute('marketplacecommerceanalytics', @_) }
 sub meteringmarketplace { shift->_execute('meteringmarketplace', @_) }
+sub mgh                { shift->_execute('mgh', @_) }
+sub mturk              { shift->_execute('mturk', @_) }
 sub opsworks           { shift->_execute('opsworks', @_) }
+sub opsworks_cm        { shift->_execute('opsworks-cm', @_) }
+sub organizations      { shift->_execute('organizations', @_) }
+sub pinpoint           { shift->_execute('pinpoint', @_) }
 sub polly              { shift->_execute('polly', @_) }
 sub rds                { shift->_execute('rds', @_) }
 sub redshift           { shift->_execute('redshift', @_) }
 sub rekognition        { shift->_execute('rekognition', @_) }
+sub resourcegroupstaggingapi { shift->_execute('resourcegroupstaggingapi', @_) }
 sub route53            { shift->_execute('route53', @_) }
 sub route53domains     { shift->_execute('route53domains', @_) }
 sub s3                 { shift->_execute('s3', @_) }
@@ -328,17 +349,22 @@ sub s3api              { shift->_execute('s3api', @_) }
 sub sdb                { shift->_execute('sdb', @_) }
 sub servicecatalog     { shift->_execute('servicecatalog', @_) }
 sub ses                { shift->_execute('ses', @_) }
+sub shield             { shift->_execute('shield', @_) }
 sub sms                { shift->_execute('sms', @_) }
 sub snowball           { shift->_execute('snowball', @_) }
 sub sns                { shift->_execute('sns', @_) }
 sub sqs                { shift->_execute('sqs', @_) }
 sub ssm                { shift->_execute('ssm', @_) }
+sub stepfunctions      { shift->_execute('stepfunctions', @_) }
 sub storagegateway     { shift->_execute('storagegateway', @_) }
 sub sts                { shift->_execute('sts', @_) }
 sub support            { shift->_execute('support', @_) }
 sub swf                { shift->_execute('swf', @_) }
 sub waf                { shift->_execute('waf', @_) }
+sub waf_regional       { shift->_execute('waf-regional', @_) }
+sub workdocs           { shift->_execute('workdocs', @_) }
 sub workspaces         { shift->_execute('workspaces', @_) }
+sub xray               { shift->_execute('xray', @_) }
 
 1;
 
@@ -402,15 +428,25 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<application_autoscaling>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<appstream>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<athena>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<autoscaling>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<batch>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<budgets>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<clouddirectory>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cloudformation>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cloudfront>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cloudhsm>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<cloudhsmv2>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cloudsearch>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -420,9 +456,13 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<cloudwatch>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<codebuild>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<codecommit>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<codepipeline>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<codestar>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cognito_identity>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -434,7 +474,11 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<configure>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<cur>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<datapipeline>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<dax>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<deploy>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -482,6 +526,12 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<glacier>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<glue>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<greengrass>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<health>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<iam>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<importexport>($operation:Str, $param:HashRef, %opt:Hash)
@@ -500,17 +550,33 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<lambda>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<lex_models>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<lex_runtime>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<lightsail>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<logs>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<machinelearning>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<marketplace_entitlement>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<marketplacecommerceanalytics>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<meteringmarketplace>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<mgh>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<mturk>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<opsworks>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<opsworks_cm>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<organizations>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<pinpoint>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<polly>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -519,6 +585,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<redshift>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<rekognition>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<resourcegroupstaggingapi>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<route53>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -534,6 +602,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<ses>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<shield>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<sms>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<snowball>($operation:Str, $param:HashRef, %opt:Hash)
@@ -543,6 +613,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<sqs>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<ssm>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<stepfunctions>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<storagegateway>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -554,7 +626,13 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<waf>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<waf_regional>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<workdocs>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<workspaces>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<xray>($operation:Str, $param:HashRef, %opt:Hash)
 
 AWS::CLIWrapper provides methods same as services of aws-cli. Please refer to `aws help`.
 
