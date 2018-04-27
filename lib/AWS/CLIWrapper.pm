@@ -592,7 +592,7 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<route53domains>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<s3>($operation:Str, $param:HashRef, %opt:Hash)
+=item B<s3>($operation:Str, $path:ArrayRef, $param:HashRef, %opt:Hash)
 
 =item B<s3api>($operation:Str, $param:HashRef, %opt:Hash)
 
