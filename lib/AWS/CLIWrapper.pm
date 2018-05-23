@@ -218,6 +218,12 @@ sub _execute {
         local $@;
         my($ret) = eval {
             # aws s3 returns null HTTP body, so failed to parse as JSON
+
+            # Temporary disable __DIE__ handler to prevent the
+            # exception from decode_prefix () from catching by outer
+            # __DIE__ handler.
+            local $SIG{__DIE__} = sub {};
+
             $self->json->decode_prefix($json);
         };
         if ($@) {
