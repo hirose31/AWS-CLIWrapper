@@ -31,7 +31,7 @@ sub new {
     my $self = bless {
         opt  => \@opt,
         json => JSON->new,
-        awscli_path => $param{awscli_path} // 'aws',
+        awscli_path => $param{awscli_path} || 'aws',
     }, $class;
 
     return $self;
