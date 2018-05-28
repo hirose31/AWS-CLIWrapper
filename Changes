@@ -1,5 +1,11 @@
 Revision history for AWS::CLIWrapper
 
+1.15  2018-05-28
+    [IMPROVEMENTS]
+        - Add servics with aws-cli/1.15.28
+    [BUG FIXES]
+        - Don't use defined-or (rt 125410)
+
 1.14  2018-05-23
     [IMPROVEMENTS]
         - Temporary disable __DIE__ handler (issue #15 by @Tanoti)
