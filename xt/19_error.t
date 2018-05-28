@@ -38,7 +38,7 @@ $err = $AWS::CLIWrapper::Error;
 ok(!$res, 'required option');
 
   is($err->{Code},    'Unknown',       'err Code');
-like($err->{Message}, qr/is required/, 'err Message');
+like($err->{Message}, qr/(?:is required|MissingParameter)/, 'err Message');
 
 
 ###
