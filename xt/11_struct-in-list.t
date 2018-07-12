@@ -8,7 +8,7 @@ my $aws = AWS::CLIWrapper->new;
 my $res;
 
 $res = $aws->ec2('describe-instances', {
-    'filters' => [{ Name => 'tag:Name', Values => ["AC-TEST-*"] }],
+    'filters' => [{ Name => 'tag:purpose', Values => ["AC-TEST-*"] }],
    });
 ok($res, 'structure in list');
 

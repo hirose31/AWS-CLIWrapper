@@ -5,7 +5,6 @@ use Test::More;
 use AWS::CLIWrapper;
 
 my $AMI_ID = 'ami-fe6ceeff'; # Ubuntu 12.04
-my $NAME_PREFIX = 'AC-TEST-'; # AWS::CLIWrapper Test
 
 my $aws = AWS::CLIWrapper->new;
 my $res;
