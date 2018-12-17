@@ -268,8 +268,10 @@ sub _execute {
 sub acm                { shift->_execute('acm', @_) }
 sub acm_pca            { shift->_execute('acm-pca', @_) }
 sub alexaforbusiness   { shift->_execute('alexaforbusiness', @_) }
+sub amplify            { shift->_execute('amplify', @_) }
 sub apigateway         { shift->_execute('apigateway', @_) }
 sub application_autoscaling { shift->_execute('application-autoscaling', @_) }
+sub appmesh            { shift->_execute('appmesh', @_) }
 sub appstream          { shift->_execute('appstream', @_) }
 sub appsync            { shift->_execute('appsync', @_) }
 sub athena             { shift->_execute('athena', @_) }
@@ -278,6 +280,7 @@ sub autoscaling_plans  { shift->_execute('autoscaling-plans', @_) }
 sub batch              { shift->_execute('batch', @_) }
 sub budgets            { shift->_execute('budgets', @_) }
 sub ce                 { shift->_execute('ce', @_) }
+sub chime              { shift->_execute('chime', @_) }
 sub cloud9             { shift->_execute('cloud9', @_) }
 sub clouddirectory     { shift->_execute('clouddirectory', @_) }
 sub cloudformation     { shift->_execute('cloudformation', @_) }
@@ -296,16 +299,19 @@ sub cognito_identity   { shift->_execute('cognito-identity', @_) }
 sub cognito_idp        { shift->_execute('cognito-idp', @_) }
 sub cognito_sync       { shift->_execute('cognito-sync', @_) }
 sub comprehend         { shift->_execute('comprehend', @_) }
+sub comprehendmedical  { shift->_execute('comprehendmedical', @_) }
 sub configservice      { shift->_execute('configservice', @_) }
 sub configure          { shift->_execute('configure', @_) }
 sub connect            { shift->_execute('connect', @_) }
 sub cur                { shift->_execute('cur', @_) }
 sub datapipeline       { shift->_execute('datapipeline', @_) }
+sub datasync           { shift->_execute('datasync', @_) }
 sub dax                { shift->_execute('dax', @_) }
 sub deploy             { shift->_execute('deploy', @_) }
 sub devicefarm         { shift->_execute('devicefarm', @_) }
 sub directconnect      { shift->_execute('directconnect', @_) }
 sub discovery          { shift->_execute('discovery', @_) }
+sub dlm                { shift->_execute('dlm', @_) }
 sub dms                { shift->_execute('dms', @_) }
 sub ds                 { shift->_execute('ds', @_) }
 sub dynamodb           { shift->_execute('dynamodb', @_) }
@@ -314,6 +320,7 @@ sub ec2                { shift->_execute('ec2', @_) }
 sub ecr                { shift->_execute('ecr', @_) }
 sub ecs                { shift->_execute('ecs', @_) }
 sub efs                { shift->_execute('efs', @_) }
+sub eks                { shift->_execute('eks', @_) }
 sub elasticache        { shift->_execute('elasticache', @_) }
 sub elasticbeanstalk   { shift->_execute('elasticbeanstalk', @_) }
 sub elastictranscoder  { shift->_execute('elastictranscoder', @_) }
@@ -324,8 +331,10 @@ sub es                 { shift->_execute('es', @_) }
 sub events             { shift->_execute('events', @_) }
 sub firehose           { shift->_execute('firehose', @_) }
 sub fms                { shift->_execute('fms', @_) }
+sub fsx                { shift->_execute('fsx', @_) }
 sub gamelift           { shift->_execute('gamelift', @_) }
 sub glacier            { shift->_execute('glacier', @_) }
+sub globalaccelerator  { shift->_execute('globalaccelerator', @_) }
 sub glue               { shift->_execute('glue', @_) }
 sub greengrass         { shift->_execute('greengrass', @_) }
 sub guardduty          { shift->_execute('guardduty', @_) }
@@ -340,55 +349,73 @@ sub iot_jobs_data      { shift->_execute('iot-jobs-data', @_) }
 sub iot1click_devices  { shift->_execute('iot1click-devices', @_) }
 sub iot1click_projects { shift->_execute('iot1click-projects', @_) }
 sub iotanalytics       { shift->_execute('iotanalytics', @_) }
+sub kafka              { shift->_execute('kafka', @_) }
 sub kinesis            { shift->_execute('kinesis', @_) }
 sub kinesis_video_archived_media { shift->_execute('kinesis-video-archived-media', @_) }
 sub kinesis_video_media { shift->_execute('kinesis-video-media', @_) }
 sub kinesisanalytics   { shift->_execute('kinesisanalytics', @_) }
+sub kinesisanalyticsv2 { shift->_execute('kinesisanalyticsv2', @_) }
 sub kinesisvideo       { shift->_execute('kinesisvideo', @_) }
 sub kms                { shift->_execute('kms', @_) }
 sub lambda             { shift->_execute('lambda', @_) }
 sub lex_models         { shift->_execute('lex-models', @_) }
 sub lex_runtime        { shift->_execute('lex-runtime', @_) }
+sub license_manager    { shift->_execute('license-manager', @_) }
 sub lightsail          { shift->_execute('lightsail', @_) }
 sub logs               { shift->_execute('logs', @_) }
 sub machinelearning    { shift->_execute('machinelearning', @_) }
+sub macie              { shift->_execute('macie', @_) }
 sub marketplace_entitlement { shift->_execute('marketplace-entitlement', @_) }
 sub marketplacecommerceanalytics { shift->_execute('marketplacecommerceanalytics', @_) }
+sub mediaconnect       { shift->_execute('mediaconnect', @_) }
 sub mediaconvert       { shift->_execute('mediaconvert', @_) }
 sub medialive          { shift->_execute('medialive', @_) }
 sub mediapackage       { shift->_execute('mediapackage', @_) }
 sub mediastore         { shift->_execute('mediastore', @_) }
 sub mediastore_data    { shift->_execute('mediastore-data', @_) }
+sub mediatailor        { shift->_execute('mediatailor', @_) }
 sub meteringmarketplace { shift->_execute('meteringmarketplace', @_) }
 sub mgh                { shift->_execute('mgh', @_) }
 sub mobile             { shift->_execute('mobile', @_) }
 sub mq                 { shift->_execute('mq', @_) }
 sub mturk              { shift->_execute('mturk', @_) }
+sub neptune            { shift->_execute('neptune', @_) }
 sub opsworks           { shift->_execute('opsworks', @_) }
 sub opsworks_cm        { shift->_execute('opsworks-cm', @_) }
 sub organizations      { shift->_execute('organizations', @_) }
+sub pi                 { shift->_execute('pi', @_) }
 sub pinpoint           { shift->_execute('pinpoint', @_) }
+sub pinpoint_email     { shift->_execute('pinpoint-email', @_) }
 sub polly              { shift->_execute('polly', @_) }
 sub pricing            { shift->_execute('pricing', @_) }
+sub quicksight         { shift->_execute('quicksight', @_) }
+sub ram                { shift->_execute('ram', @_) }
 sub rds                { shift->_execute('rds', @_) }
+sub rds_data           { shift->_execute('rds-data', @_) }
 sub redshift           { shift->_execute('redshift', @_) }
 sub rekognition        { shift->_execute('rekognition', @_) }
 sub resource_groups    { shift->_execute('resource-groups', @_) }
 sub resourcegroupstaggingapi { shift->_execute('resourcegroupstaggingapi', @_) }
+sub robomaker          { shift->_execute('robomaker', @_) }
 sub route53            { shift->_execute('route53', @_) }
 sub route53domains     { shift->_execute('route53domains', @_) }
+sub route53resolver    { shift->_execute('route53resolver', @_) }
 sub s3                 { shift->_execute('s3', @_) }
 sub s3api              { shift->_execute('s3api', @_) }
+sub s3control          { shift->_execute('s3control', @_) }
 sub sagemaker          { shift->_execute('sagemaker', @_) }
 sub sagemaker_runtime  { shift->_execute('sagemaker-runtime', @_) }
 sub sdb                { shift->_execute('sdb', @_) }
 sub secretsmanager     { shift->_execute('secretsmanager', @_) }
+sub securityhub        { shift->_execute('securityhub', @_) }
 sub serverlessrepo     { shift->_execute('serverlessrepo', @_) }
 sub servicecatalog     { shift->_execute('servicecatalog', @_) }
 sub servicediscovery   { shift->_execute('servicediscovery', @_) }
 sub ses                { shift->_execute('ses', @_) }
 sub shield             { shift->_execute('shield', @_) }
+sub signer             { shift->_execute('signer', @_) }
 sub sms                { shift->_execute('sms', @_) }
+sub sms_voice          { shift->_execute('sms-voice', @_) }
 sub snowball           { shift->_execute('snowball', @_) }
 sub sns                { shift->_execute('sns', @_) }
 sub sqs                { shift->_execute('sqs', @_) }
@@ -399,6 +426,7 @@ sub sts                { shift->_execute('sts', @_) }
 sub support            { shift->_execute('support', @_) }
 sub swf                { shift->_execute('swf', @_) }
 sub transcribe         { shift->_execute('transcribe', @_) }
+sub transfer           { shift->_execute('transfer', @_) }
 sub translate          { shift->_execute('translate', @_) }
 sub waf                { shift->_execute('waf', @_) }
 sub waf_regional       { shift->_execute('waf-regional', @_) }
@@ -469,9 +497,13 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<alexaforbusiness>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<amplify>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<apigateway>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<application_autoscaling>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<appmesh>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<appstream>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -488,6 +520,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<budgets>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<ce>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<chime>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cloud9>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -525,6 +559,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<comprehend>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<comprehendmedical>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<configservice>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<configure>($operation:Str, $param:HashRef, %opt:Hash)
@@ -535,6 +571,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<datapipeline>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<datasync>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<dax>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<deploy>($operation:Str, $param:HashRef, %opt:Hash)
@@ -544,6 +582,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<directconnect>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<discovery>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<dlm>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<dms>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -560,6 +600,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<ecs>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<efs>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<eks>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<elasticache>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -581,9 +623,13 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<fms>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<fsx>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<gamelift>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<glacier>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<globalaccelerator>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<glue>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -613,6 +659,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<iotanalytics>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<kafka>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<kinesis>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<kinesis_video_archived_media>($operation:Str, $param:HashRef, %opt:Hash)
@@ -620,6 +668,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<kinesis_video_media>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<kinesisanalytics>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<kinesisanalyticsv2>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<kinesisvideo>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -631,15 +681,21 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<lex_runtime>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<license_manager>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<lightsail>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<logs>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<machinelearning>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<macie>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<marketplace_entitlement>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<marketplacecommerceanalytics>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<mediaconnect>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<mediaconvert>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -651,6 +707,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<mediastore_data>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<mediatailor>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<meteringmarketplace>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<mgh>($operation:Str, $param:HashRef, %opt:Hash)
@@ -661,19 +719,31 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<mturk>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<neptune>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<opsworks>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<opsworks_cm>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<organizations>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<pi>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<pinpoint>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<pinpoint_email>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<polly>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<pricing>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<quicksight>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<ram>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<rds>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<rds_data>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<redshift>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -683,13 +753,19 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<resourcegroupstaggingapi>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<robomaker>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<route53>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<route53domains>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<route53resolver>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<s3>($operation:Str, $path:ArrayRef, $param:HashRef, %opt:Hash)
 
 =item B<s3api>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<s3control>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<sagemaker>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -698,6 +774,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<sdb>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<secretsmanager>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<securityhub>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<serverlessrepo>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -709,7 +787,11 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<shield>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<signer>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<sms>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<sms_voice>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<snowball>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -730,6 +812,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<swf>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<transcribe>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<transfer>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<translate>($operation:Str, $param:HashRef, %opt:Hash)
 
