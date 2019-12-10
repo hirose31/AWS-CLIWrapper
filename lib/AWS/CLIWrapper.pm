@@ -265,6 +265,7 @@ sub _execute {
 # aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; next if $_ eq 'help'; my $sn = $_; $sn =~ s/-/_/g; printf "sub %-18s { shift->_execute('"'"'%s'"'"', \@_) }\n", $sn, $_ }'
 # aws help | col -b | perl -ne 'if (/^AVAILABLE/.../^[A-Z]/) {  s/^\s+o\s+// or next; chomp; next if $_ eq 'help'; my $sn = $_; $sn =~ s/-/_/g; printf "=item B<%s>(\$operation:Str, \$param:HashRef, %%opt:Hash)\n\n", $sn}'
 # =item B<s3>($operation:Str, $path:ArrayRef, $param:HashRef, %opt:Hash)
+sub accessanalyzer     { shift->_execute('accessanalyzer', @_) }
 sub acm                { shift->_execute('acm', @_) }
 sub acm_pca            { shift->_execute('acm-pca', @_) }
 sub alexaforbusiness   { shift->_execute('alexaforbusiness', @_) }
@@ -272,7 +273,9 @@ sub amplify            { shift->_execute('amplify', @_) }
 sub apigateway         { shift->_execute('apigateway', @_) }
 sub apigatewaymanagementapi { shift->_execute('apigatewaymanagementapi', @_) }
 sub apigatewayv2       { shift->_execute('apigatewayv2', @_) }
+sub appconfig          { shift->_execute('appconfig', @_) }
 sub application_autoscaling { shift->_execute('application-autoscaling', @_) }
+sub application_insights { shift->_execute('application-insights', @_) }
 sub appmesh            { shift->_execute('appmesh', @_) }
 sub appstream          { shift->_execute('appstream', @_) }
 sub appsync            { shift->_execute('appsync', @_) }
@@ -296,17 +299,23 @@ sub cloudtrail         { shift->_execute('cloudtrail', @_) }
 sub cloudwatch         { shift->_execute('cloudwatch', @_) }
 sub codebuild          { shift->_execute('codebuild', @_) }
 sub codecommit         { shift->_execute('codecommit', @_) }
+sub codeguru_reviewer  { shift->_execute('codeguru-reviewer', @_) }
+sub codeguruprofiler   { shift->_execute('codeguruprofiler', @_) }
 sub codepipeline       { shift->_execute('codepipeline', @_) }
 sub codestar           { shift->_execute('codestar', @_) }
+sub codestar_notifications { shift->_execute('codestar-notifications', @_) }
 sub cognito_identity   { shift->_execute('cognito-identity', @_) }
 sub cognito_idp        { shift->_execute('cognito-idp', @_) }
 sub cognito_sync       { shift->_execute('cognito-sync', @_) }
 sub comprehend         { shift->_execute('comprehend', @_) }
 sub comprehendmedical  { shift->_execute('comprehendmedical', @_) }
+sub compute_optimizer  { shift->_execute('compute-optimizer', @_) }
 sub configservice      { shift->_execute('configservice', @_) }
 sub configure          { shift->_execute('configure', @_) }
 sub connect            { shift->_execute('connect', @_) }
+sub connectparticipant { shift->_execute('connectparticipant', @_) }
 sub cur                { shift->_execute('cur', @_) }
+sub dataexchange       { shift->_execute('dataexchange', @_) }
 sub datapipeline       { shift->_execute('datapipeline', @_) }
 sub datasync           { shift->_execute('datasync', @_) }
 sub dax                { shift->_execute('dax', @_) }
@@ -320,11 +329,14 @@ sub docdb              { shift->_execute('docdb', @_) }
 sub ds                 { shift->_execute('ds', @_) }
 sub dynamodb           { shift->_execute('dynamodb', @_) }
 sub dynamodbstreams    { shift->_execute('dynamodbstreams', @_) }
+sub ebs                { shift->_execute('ebs', @_) }
 sub ec2                { shift->_execute('ec2', @_) }
+sub ec2_instance_connect { shift->_execute('ec2-instance-connect', @_) }
 sub ecr                { shift->_execute('ecr', @_) }
 sub ecs                { shift->_execute('ecs', @_) }
 sub efs                { shift->_execute('efs', @_) }
 sub eks                { shift->_execute('eks', @_) }
+sub elastic_inference  { shift->_execute('elastic-inference', @_) }
 sub elasticache        { shift->_execute('elasticache', @_) }
 sub elasticbeanstalk   { shift->_execute('elasticbeanstalk', @_) }
 sub elastictranscoder  { shift->_execute('elastictranscoder', @_) }
@@ -335,6 +347,9 @@ sub es                 { shift->_execute('es', @_) }
 sub events             { shift->_execute('events', @_) }
 sub firehose           { shift->_execute('firehose', @_) }
 sub fms                { shift->_execute('fms', @_) }
+sub forecast           { shift->_execute('forecast', @_) }
+sub forecastquery      { shift->_execute('forecastquery', @_) }
+sub frauddetector      { shift->_execute('frauddetector', @_) }
 sub fsx                { shift->_execute('fsx', @_) }
 sub gamelift           { shift->_execute('gamelift', @_) }
 sub glacier            { shift->_execute('glacier', @_) }
@@ -346,6 +361,7 @@ sub guardduty          { shift->_execute('guardduty', @_) }
 sub health             { shift->_execute('health', @_) }
 sub history            { shift->_execute('history', @_) }
 sub iam                { shift->_execute('iam', @_) }
+sub imagebuilder       { shift->_execute('imagebuilder', @_) }
 sub importexport       { shift->_execute('importexport', @_) }
 sub inspector          { shift->_execute('inspector', @_) }
 sub iot                { shift->_execute('iot', @_) }
@@ -356,15 +372,19 @@ sub iot1click_projects { shift->_execute('iot1click-projects', @_) }
 sub iotanalytics       { shift->_execute('iotanalytics', @_) }
 sub iotevents          { shift->_execute('iotevents', @_) }
 sub iotevents_data     { shift->_execute('iotevents-data', @_) }
+sub iotsecuretunneling { shift->_execute('iotsecuretunneling', @_) }
 sub iotthingsgraph     { shift->_execute('iotthingsgraph', @_) }
 sub kafka              { shift->_execute('kafka', @_) }
+sub kendra             { shift->_execute('kendra', @_) }
 sub kinesis            { shift->_execute('kinesis', @_) }
 sub kinesis_video_archived_media { shift->_execute('kinesis-video-archived-media', @_) }
 sub kinesis_video_media { shift->_execute('kinesis-video-media', @_) }
+sub kinesis_video_signaling { shift->_execute('kinesis-video-signaling', @_) }
 sub kinesisanalytics   { shift->_execute('kinesisanalytics', @_) }
 sub kinesisanalyticsv2 { shift->_execute('kinesisanalyticsv2', @_) }
 sub kinesisvideo       { shift->_execute('kinesisvideo', @_) }
 sub kms                { shift->_execute('kms', @_) }
+sub lakeformation      { shift->_execute('lakeformation', @_) }
 sub lambda             { shift->_execute('lambda', @_) }
 sub lex_models         { shift->_execute('lex-models', @_) }
 sub lex_runtime        { shift->_execute('lex-runtime', @_) }
@@ -374,6 +394,7 @@ sub logs               { shift->_execute('logs', @_) }
 sub machinelearning    { shift->_execute('machinelearning', @_) }
 sub macie              { shift->_execute('macie', @_) }
 sub managedblockchain  { shift->_execute('managedblockchain', @_) }
+sub marketplace_catalog { shift->_execute('marketplace-catalog', @_) }
 sub marketplace_entitlement { shift->_execute('marketplace-entitlement', @_) }
 sub marketplacecommerceanalytics { shift->_execute('marketplacecommerceanalytics', @_) }
 sub mediaconnect       { shift->_execute('mediaconnect', @_) }
@@ -386,13 +407,16 @@ sub mediastore_data    { shift->_execute('mediastore-data', @_) }
 sub mediatailor        { shift->_execute('mediatailor', @_) }
 sub meteringmarketplace { shift->_execute('meteringmarketplace', @_) }
 sub mgh                { shift->_execute('mgh', @_) }
+sub migrationhub_config { shift->_execute('migrationhub-config', @_) }
 sub mobile             { shift->_execute('mobile', @_) }
 sub mq                 { shift->_execute('mq', @_) }
 sub mturk              { shift->_execute('mturk', @_) }
 sub neptune            { shift->_execute('neptune', @_) }
+sub networkmanager     { shift->_execute('networkmanager', @_) }
 sub opsworks           { shift->_execute('opsworks', @_) }
 sub opsworks_cm        { shift->_execute('opsworks-cm', @_) }
 sub organizations      { shift->_execute('organizations', @_) }
+sub outposts           { shift->_execute('outposts', @_) }
 sub personalize        { shift->_execute('personalize', @_) }
 sub personalize_events { shift->_execute('personalize-events', @_) }
 sub personalize_runtime { shift->_execute('personalize-runtime', @_) }
@@ -402,6 +426,8 @@ sub pinpoint_email     { shift->_execute('pinpoint-email', @_) }
 sub pinpoint_sms_voice { shift->_execute('pinpoint-sms-voice', @_) }
 sub polly              { shift->_execute('polly', @_) }
 sub pricing            { shift->_execute('pricing', @_) }
+sub qldb               { shift->_execute('qldb', @_) }
+sub qldb_session       { shift->_execute('qldb-session', @_) }
 sub quicksight         { shift->_execute('quicksight', @_) }
 sub ram                { shift->_execute('ram', @_) }
 sub rds                { shift->_execute('rds', @_) }
@@ -418,14 +444,19 @@ sub s3                 { shift->_execute('s3', @_) }
 sub s3api              { shift->_execute('s3api', @_) }
 sub s3control          { shift->_execute('s3control', @_) }
 sub sagemaker          { shift->_execute('sagemaker', @_) }
+sub sagemaker_a2i_runtime { shift->_execute('sagemaker-a2i-runtime', @_) }
 sub sagemaker_runtime  { shift->_execute('sagemaker-runtime', @_) }
+sub savingsplans       { shift->_execute('savingsplans', @_) }
+sub schemas            { shift->_execute('schemas', @_) }
 sub sdb                { shift->_execute('sdb', @_) }
 sub secretsmanager     { shift->_execute('secretsmanager', @_) }
 sub securityhub        { shift->_execute('securityhub', @_) }
 sub serverlessrepo     { shift->_execute('serverlessrepo', @_) }
+sub service_quotas     { shift->_execute('service-quotas', @_) }
 sub servicecatalog     { shift->_execute('servicecatalog', @_) }
 sub servicediscovery   { shift->_execute('servicediscovery', @_) }
 sub ses                { shift->_execute('ses', @_) }
+sub sesv2              { shift->_execute('sesv2', @_) }
 sub shield             { shift->_execute('shield', @_) }
 sub signer             { shift->_execute('signer', @_) }
 sub sms                { shift->_execute('sms', @_) }
@@ -433,6 +464,8 @@ sub snowball           { shift->_execute('snowball', @_) }
 sub sns                { shift->_execute('sns', @_) }
 sub sqs                { shift->_execute('sqs', @_) }
 sub ssm                { shift->_execute('ssm', @_) }
+sub sso                { shift->_execute('sso', @_) }
+sub sso_oidc           { shift->_execute('sso-oidc', @_) }
 sub stepfunctions      { shift->_execute('stepfunctions', @_) }
 sub storagegateway     { shift->_execute('storagegateway', @_) }
 sub sts                { shift->_execute('sts', @_) }
@@ -444,9 +477,11 @@ sub transfer           { shift->_execute('transfer', @_) }
 sub translate          { shift->_execute('translate', @_) }
 sub waf                { shift->_execute('waf', @_) }
 sub waf_regional       { shift->_execute('waf-regional', @_) }
+sub wafv2              { shift->_execute('wafv2', @_) }
 sub workdocs           { shift->_execute('workdocs', @_) }
 sub worklink           { shift->_execute('worklink', @_) }
 sub workmail           { shift->_execute('workmail', @_) }
+sub workmailmessageflow { shift->_execute('workmailmessageflow', @_) }
 sub workspaces         { shift->_execute('workspaces', @_) }
 sub xray               { shift->_execute('xray', @_) }
 
@@ -506,6 +541,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
     profile      profile_name:Str
     endpoint_url endpoint_url:Str
 
+=item B<accessanalyzer>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<acm>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<acm_pca>($operation:Str, $param:HashRef, %opt:Hash)
@@ -520,7 +557,11 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<apigatewayv2>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<appconfig>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<application_autoscaling>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<application_insights>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<appmesh>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -568,9 +609,15 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<codecommit>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<codeguru_reviewer>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<codeguruprofiler>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<codepipeline>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<codestar>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<codestar_notifications>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cognito_identity>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -582,13 +629,19 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<comprehendmedical>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<compute_optimizer>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<configservice>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<configure>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<connect>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<connectparticipant>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<cur>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<dataexchange>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<datapipeline>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -616,7 +669,11 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<dynamodbstreams>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<ebs>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<ec2>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<ec2_instance_connect>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<ecr>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -625,6 +682,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<efs>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<eks>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<elastic_inference>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<elasticache>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -645,6 +704,12 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<firehose>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<fms>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<forecast>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<forecastquery>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<frauddetector>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<fsx>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -668,6 +733,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<iam>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<imagebuilder>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<importexport>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<inspector>($operation:Str, $param:HashRef, %opt:Hash)
@@ -688,15 +755,21 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<iotevents_data>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<iotsecuretunneling>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<iotthingsgraph>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<kafka>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<kendra>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<kinesis>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<kinesis_video_archived_media>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<kinesis_video_media>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<kinesis_video_signaling>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<kinesisanalytics>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -705,6 +778,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<kinesisvideo>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<kms>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<lakeformation>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<lambda>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -723,6 +798,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<macie>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<managedblockchain>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<marketplace_catalog>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<marketplace_entitlement>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -748,6 +825,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<mgh>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<migrationhub_config>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<mobile>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<mq>($operation:Str, $param:HashRef, %opt:Hash)
@@ -756,11 +835,15 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<neptune>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<networkmanager>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<opsworks>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<opsworks_cm>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<organizations>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<outposts>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<personalize>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -779,6 +862,10 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<polly>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<pricing>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<qldb>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<qldb_session>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<quicksight>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -804,7 +891,7 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<route53resolver>($operation:Str, $param:HashRef, %opt:Hash)
 
-=item B<s3>($operation:Str, $path:ArrayRef, $param:HashRef, %opt:Hash)
+ =item B<s3>($operation:Str, $path:ArrayRef, $param:HashRef, %opt:Hash)
 
 =item B<s3api>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -812,7 +899,13 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<sagemaker>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<sagemaker_a2i_runtime>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<sagemaker_runtime>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<savingsplans>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<schemas>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<sdb>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -822,11 +915,15 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<serverlessrepo>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<service_quotas>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<servicecatalog>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<servicediscovery>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<ses>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<sesv2>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<shield>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -841,6 +938,10 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<sqs>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<ssm>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<sso>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<sso_oidc>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<stepfunctions>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -864,11 +965,15 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<waf_regional>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<wafv2>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<workdocs>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<worklink>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<workmail>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<workmailmessageflow>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<workspaces>($operation:Str, $param:HashRef, %opt:Hash)
 
