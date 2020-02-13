@@ -4,7 +4,7 @@ use Test::More;
 use AWS::CLIWrapper;
 
 my $cli_wrapper = AWS::CLIWrapper->new;
-ok($cli_wrapper->awscli_version >= 0);
+ok($cli_wrapper->awscli_version >= 0, $cli_wrapper->awscli_version);
 if ($cli_wrapper->awscli_version > 0) {
     ok($cli_wrapper->awscli_version > 0.001);
 }
