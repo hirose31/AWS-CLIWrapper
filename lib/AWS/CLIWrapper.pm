@@ -303,6 +303,7 @@ sub codeguru_reviewer  { shift->_execute('codeguru-reviewer', @_) }
 sub codeguruprofiler   { shift->_execute('codeguruprofiler', @_) }
 sub codepipeline       { shift->_execute('codepipeline', @_) }
 sub codestar           { shift->_execute('codestar', @_) }
+sub codestar_connections { shift->_execute('codestar-connections', @_) }
 sub codestar_notifications { shift->_execute('codestar-notifications', @_) }
 sub cognito_identity   { shift->_execute('cognito-identity', @_) }
 sub cognito_idp        { shift->_execute('cognito-idp', @_) }
@@ -320,6 +321,7 @@ sub datapipeline       { shift->_execute('datapipeline', @_) }
 sub datasync           { shift->_execute('datasync', @_) }
 sub dax                { shift->_execute('dax', @_) }
 sub deploy             { shift->_execute('deploy', @_) }
+sub detective          { shift->_execute('detective', @_) }
 sub devicefarm         { shift->_execute('devicefarm', @_) }
 sub directconnect      { shift->_execute('directconnect', @_) }
 sub discovery          { shift->_execute('discovery', @_) }
@@ -373,6 +375,7 @@ sub iotanalytics       { shift->_execute('iotanalytics', @_) }
 sub iotevents          { shift->_execute('iotevents', @_) }
 sub iotevents_data     { shift->_execute('iotevents-data', @_) }
 sub iotsecuretunneling { shift->_execute('iotsecuretunneling', @_) }
+sub iotsitewise        { shift->_execute('iotsitewise', @_) }
 sub iotthingsgraph     { shift->_execute('iotthingsgraph', @_) }
 sub kafka              { shift->_execute('kafka', @_) }
 sub kendra             { shift->_execute('kendra', @_) }
@@ -393,6 +396,7 @@ sub lightsail          { shift->_execute('lightsail', @_) }
 sub logs               { shift->_execute('logs', @_) }
 sub machinelearning    { shift->_execute('machinelearning', @_) }
 sub macie              { shift->_execute('macie', @_) }
+sub macie2             { shift->_execute('macie2', @_) }
 sub managedblockchain  { shift->_execute('managedblockchain', @_) }
 sub marketplace_catalog { shift->_execute('marketplace-catalog', @_) }
 sub marketplace_entitlement { shift->_execute('marketplace-entitlement', @_) }
@@ -471,6 +475,7 @@ sub storagegateway     { shift->_execute('storagegateway', @_) }
 sub sts                { shift->_execute('sts', @_) }
 sub support            { shift->_execute('support', @_) }
 sub swf                { shift->_execute('swf', @_) }
+sub synthetics         { shift->_execute('synthetics', @_) }
 sub textract           { shift->_execute('textract', @_) }
 sub transcribe         { shift->_execute('transcribe', @_) }
 sub transfer           { shift->_execute('transfer', @_) }
@@ -617,6 +622,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<codestar>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<codestar_connections>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<codestar_notifications>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<cognito_identity>($operation:Str, $param:HashRef, %opt:Hash)
@@ -650,6 +657,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<dax>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<deploy>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<detective>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<devicefarm>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -757,6 +766,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<iotsecuretunneling>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<iotsitewise>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<iotthingsgraph>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<kafka>($operation:Str, $param:HashRef, %opt:Hash)
@@ -796,6 +807,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<machinelearning>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<macie>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<macie2>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<managedblockchain>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -952,6 +965,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<support>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<swf>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<synthetics>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<textract>($operation:Str, $param:HashRef, %opt:Hash)
 
