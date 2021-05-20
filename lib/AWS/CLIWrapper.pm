@@ -280,7 +280,9 @@ sub appflow            { shift->_execute('appflow', @_) }
 sub appintegrations    { shift->_execute('appintegrations', @_) }
 sub application_autoscaling { shift->_execute('application-autoscaling', @_) }
 sub application_insights { shift->_execute('application-insights', @_) }
+sub applicationcostprofiler { shift->_execute('applicationcostprofiler', @_) }
 sub appmesh            { shift->_execute('appmesh', @_) }
+sub apprunner          { shift->_execute('apprunner', @_) }
 sub appstream          { shift->_execute('appstream', @_) }
 sub appsync            { shift->_execute('appsync', @_) }
 sub athena             { shift->_execute('athena', @_) }
@@ -360,7 +362,10 @@ sub emr                { shift->_execute('emr', @_) }
 sub emr_containers     { shift->_execute('emr-containers', @_) }
 sub es                 { shift->_execute('es', @_) }
 sub events             { shift->_execute('events', @_) }
+sub finspace           { shift->_execute('finspace', @_) }
+sub finspace_data      { shift->_execute('finspace-data', @_) }
 sub firehose           { shift->_execute('firehose', @_) }
+sub fis                { shift->_execute('fis', @_) }
 sub fms                { shift->_execute('fms', @_) }
 sub forecast           { shift->_execute('forecast', @_) }
 sub forecastquery      { shift->_execute('forecastquery', @_) }
@@ -418,6 +423,8 @@ sub license_manager    { shift->_execute('license-manager', @_) }
 sub lightsail          { shift->_execute('lightsail', @_) }
 sub location           { shift->_execute('location', @_) }
 sub logs               { shift->_execute('logs', @_) }
+sub lookoutequipment   { shift->_execute('lookoutequipment', @_) }
+sub lookoutmetrics     { shift->_execute('lookoutmetrics', @_) }
 sub lookoutvision      { shift->_execute('lookoutvision', @_) }
 sub machinelearning    { shift->_execute('machinelearning', @_) }
 sub macie              { shift->_execute('macie', @_) }
@@ -436,6 +443,7 @@ sub mediastore_data    { shift->_execute('mediastore-data', @_) }
 sub mediatailor        { shift->_execute('mediatailor', @_) }
 sub meteringmarketplace { shift->_execute('meteringmarketplace', @_) }
 sub mgh                { shift->_execute('mgh', @_) }
+sub mgn                { shift->_execute('mgn', @_) }
 sub migrationhub_config { shift->_execute('migrationhub-config', @_) }
 sub mobile             { shift->_execute('mobile', @_) }
 sub mq                 { shift->_execute('mq', @_) }
@@ -444,6 +452,7 @@ sub mwaa               { shift->_execute('mwaa', @_) }
 sub neptune            { shift->_execute('neptune', @_) }
 sub network_firewall   { shift->_execute('network-firewall', @_) }
 sub networkmanager     { shift->_execute('networkmanager', @_) }
+sub nimble             { shift->_execute('nimble', @_) }
 sub opsworks           { shift->_execute('opsworks', @_) }
 sub opsworks_cm        { shift->_execute('opsworks-cm', @_) }
 sub organizations      { shift->_execute('organizations', @_) }
@@ -500,6 +509,8 @@ sub snowball           { shift->_execute('snowball', @_) }
 sub sns                { shift->_execute('sns', @_) }
 sub sqs                { shift->_execute('sqs', @_) }
 sub ssm                { shift->_execute('ssm', @_) }
+sub ssm_contacts       { shift->_execute('ssm-contacts', @_) }
+sub ssm_incidents      { shift->_execute('ssm-incidents', @_) }
 sub sso                { shift->_execute('sso', @_) }
 sub sso_admin          { shift->_execute('sso-admin', @_) }
 sub sso_oidc           { shift->_execute('sso-oidc', @_) }
@@ -612,7 +623,11 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<application_insights>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<applicationcostprofiler>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<appmesh>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<apprunner>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<appstream>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -772,7 +787,13 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<events>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<finspace>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<finspace_data>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<firehose>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<fis>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<fms>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -888,6 +909,10 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<logs>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<lookoutequipment>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<lookoutmetrics>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<lookoutvision>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<machinelearning>($operation:Str, $param:HashRef, %opt:Hash)
@@ -924,6 +949,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 
 =item B<mgh>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<mgn>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<migrationhub_config>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<mobile>($operation:Str, $param:HashRef, %opt:Hash)
@@ -939,6 +966,8 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<network_firewall>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<networkmanager>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<nimble>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<opsworks>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -1051,6 +1080,10 @@ Constructor of AWS::CLIWrapper. Acceptable param are:
 =item B<sqs>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<ssm>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<ssm_contacts>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<ssm_incidents>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<sso>($operation:Str, $param:HashRef, %opt:Hash)
 
