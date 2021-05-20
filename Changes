@@ -1,5 +1,9 @@
 Revision history for AWS::CLIWrapper
 
+1.21  2021-05-20
+    [IMPROVEMENTS]
+        - Add servics with aws-cli/1.19.76
+
 1.20  2021-02-12
     [IMPROVEMENTS]
         - Add servics with aws-cli/1.19.6
