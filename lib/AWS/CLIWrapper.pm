@@ -10,6 +10,7 @@ use version;
 use JSON 2;
 use IPC::Cmd;
 use String::ShellQuote;
+use Carp;
 
 our $Error = { Message => '', Code => '' };
 
@@ -32,6 +33,7 @@ sub new {
         opt  => \@opt,
         json => JSON->new,
         awscli_path => $param{awscli_path} || 'aws',
+        croak_on_error => !!$param{croak_on_error},
     }, $class;
 
     return $self;
@@ -257,7 +259,10 @@ sub _execute {
                          $service, $operation, 'NG', $msg,
                         ) if $ENV{AWSCLI_DEBUG};
             $Error = { Message => $msg, Code => 'Unknown' };
-       }
+        }
+
+        croak $Error->{Message} if $self->{croak_on_error};
+
         return;
     }
 }
@@ -587,11 +592,20 @@ See note below about making sure AWS credentials are accessible (especially unde
 
 =item B<new>($param:HashRef)
 
-Constructor of AWS::CLIWrapper. Acceptable param are:
+Constructor of AWS::CLIWrapper. Acceptable AWS CLI params are:
 
     region       region_name:Str
     profile      profile_name:Str
     endpoint_url endpoint_url:Str
+
+Additionally, the these params can be used to control the wrapper behavior:
+
+    nofork          Truthy to avoid forking when executing `aws`
+    timeout         `aws` execution timeout
+    croak_on_error  Truthy to croak() with the error message when `aws`
+                    exits with non-zero code
+
+See below for more detailed explanation.
 
 =item B<accessanalyzer>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -1181,6 +1195,9 @@ Third arg "opt" is optional. Available key/values are below:
 
   nofork => Int (>0)
     Call IPC::Cmd::run vs. IPC::Cmd::run_forked (mostly useful if/when in perl debugger).  Note: 'timeout', if used with 'nofork', will merely cause an alarm and return.  ie. 'run' will NOT kill the awscli command like 'run_forked' will.
+
+  croak_on_error => Int (>0)
+    When set to a truthy value, this will make AWS::CLIWrapper to croak() with error message when `aws` command exits with non-zero status. Default behavior is to set $AWS::CLIWrapper::Error and return.
 
 =back
 
