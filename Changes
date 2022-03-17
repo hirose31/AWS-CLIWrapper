@@ -1,5 +1,10 @@
 Revision history for AWS::CLIWrapper
 
+1.22  2022-03-17
+    [IMPROVEMENTS]
+        - optionally croak() on errors (PR #18 by @nohuhu)
+        - Add servics with aws-cli/1.22.76
+
 1.21  2021-05-20
     [IMPROVEMENTS]
         - Add servics with aws-cli/1.19.76
