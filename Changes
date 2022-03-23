@@ -1,5 +1,9 @@
 Revision history for AWS::CLIWrapper
 
+1.23  2022-03-23
+    [IMPROVEMENTS]
+        - Fix test suite fails with aws-cli v2 (rt 141885)
+
 1.22  2022-03-17
     [IMPROVEMENTS]
         - optionally croak() on errors (PR #18 by @nohuhu)
