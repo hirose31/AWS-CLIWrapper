@@ -1,10 +1,15 @@
 use strict;
-use Test::More tests => 4;
+use Test::More;
 
 use AWS::CLIWrapper;
 
 # Default error handling
 my $aws = AWS::CLIWrapper->new;
+if ($aws->awscli_version == 0) {
+    plan skip_all => 'not found aws command';
+} else {
+    plan tests => 4;
+}
 
 my $res = $aws->elbv2();
 
