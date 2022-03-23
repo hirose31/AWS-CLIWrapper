@@ -16,14 +16,13 @@ is $AWS::CLIWrapper::Error->{Code}, "Unknown", "default error code match";
 my $want_err_msg = qr!exited with code \[\d+\]
 stderr:
 .*
-
 usage: aws \[options\] <command> <subcommand> \[<subcommand> ...\] \[parameters\]
 To see help text, you can run:
 
   aws help
   aws <command> help
   aws <command> <subcommand> help
-!;
+!ms;
 
 like $AWS::CLIWrapper::Error->{Message}, $want_err_msg, "default error message match";
 
