@@ -4,6 +4,8 @@ use Test::More;
 use AWS::CLIWrapper;
 
 {
+  local $ENV{AWS_CLIWRAPPER_TIMEOUT} = undef;
+
   my $aws = AWS::CLIWrapper->new();
 
   is $aws->{timeout}, 30, "default timeout is 30 seconds";
