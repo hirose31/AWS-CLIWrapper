@@ -4,7 +4,7 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = '1.23';
+our $VERSION = '1.24';
 
 use version;
 use JSON 2;

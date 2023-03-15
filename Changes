@@ -1,5 +1,10 @@
 Revision history for AWS::CLIWrapper
 
+1.24  2023-03-15
+    [IMPROVEMENTS]
+        - Allow overriding aws-cli execution timeout via environment variable (PR #19 by @nohuhu)
+        - Add servics with aws-cli/1.27.91
+
 1.23  2022-03-23
     [IMPROVEMENTS]
         - Fix test suite fails with aws-cli v2 (rt 141885)
