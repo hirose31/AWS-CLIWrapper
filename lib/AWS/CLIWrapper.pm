@@ -34,6 +34,7 @@ sub new {
         json => JSON->new,
         awscli_path => $param{awscli_path} || 'aws',
         croak_on_error => !!$param{croak_on_error},
+        timeout => (defined $ENV{AWS_CLIWRAPPER_TIMEOUT}) ? $ENV{AWS_CLIWRAPPER_TIMEOUT} : 30,
     }, $class;
 
     return $self;
@@ -194,7 +195,7 @@ sub _execute {
         # better for perl debugger
         my($ok, $err, $buf, $stdout_buf, $stderr_buf) = IPC::Cmd::run(
             command => join(' ', @cmd),
-            timeout => $opt{timeout} || 30,
+            timeout => $opt{timeout} || $self->{timeout},
         );
         $ret->{stdout} = join "", @$stdout_buf;
         $ret->{err_msg} = (defined $err ? "$err\n" : "") . join "", @$stderr_buf;
@@ -208,7 +209,7 @@ sub _execute {
         print "";
     } else {
         $ret = IPC::Cmd::run_forked(join(' ', @cmd), {
-            timeout => $opt{timeout} || 30,
+            timeout => $opt{timeout} || $self->{timeout},
         });
     }
 
@@ -1287,7 +1288,7 @@ Third arg "opt" is optional. Available key/values are below:
 
   timeout => Int
     Maximum time the "aws" command is allowed to run before aborting.
-    default is 30 seconds.
+    default is 30 seconds, unless overridden with AWS_CLIWRAPPER_TIMEOUT environment variable.
 
   nofork => Int (>0)
     Call IPC::Cmd::run vs. IPC::Cmd::run_forked (mostly useful if/when in perl debugger).  Note: 'timeout', if used with 'nofork', will merely cause an alarm and return.  ie. 'run' will NOT kill the awscli command like 'run_forked' will.
@@ -1305,6 +1306,12 @@ Third arg "opt" is optional. Available key/values are below:
 
 Special note: cron on Linux will often have a different HOME "/" instead of "/root" - set $ENV{'HOME'}
 to use the default credentials or specify $ENV{'AWS_CONFIG_FILE'} directly.
+
+=item AWS_CLIWRAPPER_TIMEOUT
+
+If this variable is set, this value will be used instead of default timeout (30 seconds) for every
+invocation of `aws-cli` that does not have a timeout value provided in the options argument of the
+called function.
 
 =item AWS_CONFIG_FILE
 
