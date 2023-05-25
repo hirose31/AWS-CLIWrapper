@@ -1,5 +1,9 @@
 Revision history for AWS::CLIWrapper
 
+1.26  2023-05-25
+    [IMPROVEMENTS]
+        - Add `region` method to allow introspection on constructor arguments (PR #22 by @nohuhu)
+
 1.25  2023-03-16
     [BUG FIXES]
         - Fix AWS_CLIWRAPPER_TIMEOUT test (PR #20 by @nohuhu)
