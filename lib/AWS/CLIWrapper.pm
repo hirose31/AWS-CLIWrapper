@@ -22,6 +22,8 @@ my $AWSCLI_VERSION = undef;
 sub new {
     my($class, %param) = @_;
 
+    my $region = $param{region};
+
     my @opt = ();
     for my $k (qw(region profile endpoint_url)) {
         if (my $v = delete $param{$k}) {
@@ -30,6 +32,7 @@ sub new {
     }
 
     my $self = bless {
+        region => $region,
         opt  => \@opt,
         json => JSON->new,
         awscli_path => $param{awscli_path} || 'aws',
@@ -39,6 +42,8 @@ sub new {
 
     return $self;
 }
+
+sub region { shift->{region} }
 
 sub awscli_path {
     my ($self) = @_;
