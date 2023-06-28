@@ -1,0 +1,89 @@
+#!/usr/bin/perl
+
+eval 'exec /usr/bin/perl -wS $0 ${1+"$@"}'
+  if 0;
+
+use strict;
+use warnings;
+no warnings 'uninitialized';
+
+version() if $ARGV[0] eq "--version";
+
+handle_die_with_error() if $ENV{AWS_CLIWRAPPER_TEST_DIE_WITH_ERROR};
+
+my $cmd = shift @ARGV;
+my $subcmd = shift @ARGV;
+
+handle($cmd, $subcmd);
+
+sub handle {
+  my ($cmd, $subcmd) = @_;
+
+  $subcmd =~ s/-/_/g;
+
+  my $handler = do {
+    no strict 'refs';
+
+    *{"main::${cmd}_$subcmd"}{CODE};
+  };
+
+  if ('CODE' eq ref $handler) {
+    $handler->();
+
+    exit 0;
+  }
+  else {
+    help();
+  }
+}
+
+sub handle_die_with_error {
+  my $counter_file = $ENV{AWS_CLIWRAPPER_TEST_ERROR_COUNTER_FILE};
+
+  return unless -f $counter_file;
+
+  open my $fh, "<", $counter_file or die "Cannot open $counter_file for read: $!";
+  my $counter = <$fh>;
+  close $fh;
+
+  # This logic is the opposite of usual retries: we throw an error for the counter
+  # number of times and then proceed normally after.
+  if ($counter-- > 0) {
+    open $fh, ">", $counter_file or die "Cannot open $counter_file for write: $!";
+    print $fh $counter;
+    close $fh;
+
+    die $ENV{AWS_CLIWRAPPER_TEST_DIE_WITH_ERROR};
+  }
+}
+
+sub version {
+  print "aws-cli/2.42.4242\n";
+  exit 0;
+}
+
+sub help {
+    die <<__END__;
+usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
+To see help text, you can run:
+
+  aws help
+  aws <command> help
+  aws <command> <subcommand> help
+
+aws: error: the following arguments are required: operation
+
+__END__
+}
+
+sub ecs_list_clusters {
+    print <<__END__;
+{
+    "clusterArns": [
+        "arn:aws:ecs:us-foo-1:123456789:cluster/foo",
+        "arn:aws:ecs:us-foo-1:123456789:cluster/bar",
+        "arn:aws:ecs:us-foo-1:123456789:cluster/baz"
+    ]
+}
+__END__
+}

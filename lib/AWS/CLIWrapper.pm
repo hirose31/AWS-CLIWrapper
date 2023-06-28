@@ -18,6 +18,9 @@ our $true  = do { bless \(my $dummy = 1), "AWS::CLIWrapper::Boolean" };
 our $false = do { bless \(my $dummy = 0), "AWS::CLIWrapper::Boolean" };
 
 my $AWSCLI_VERSION = undef;
+my $DEFAULT_CATCH_ERROR_RETRIES = 3;
+my $DEFAULT_CATCH_ERROR_MIN_DELAY = 3;
+my $DEFAULT_CATCH_ERROR_MAX_DELAY = 10;
 
 sub new {
     my($class, %param) = @_;
@@ -32,6 +35,7 @@ sub new {
     my $self = bless {
         opt  => \@opt,
         json => JSON->new,
+        param => \%param,
         awscli_path => $param{awscli_path} || 'aws',
         croak_on_error => !!$param{croak_on_error},
         timeout => (defined $ENV{AWS_CLIWRAPPER_TIMEOUT}) ? $ENV{AWS_CLIWRAPPER_TIMEOUT} : 30,
@@ -61,6 +65,73 @@ sub awscli_version {
         };
     }
     return $AWSCLI_VERSION;
+}
+
+sub catch_error_pattern {
+    my ($self) = @_;
+
+    return $ENV{AWS_CLIWRAPPER_CATCH_ERROR_PATTERN}
+        if defined $ENV{AWS_CLIWRAPPER_CATCH_ERROR_PATTERN};
+
+    return $self->{param}->{catch_error_pattern}
+        if defined $self->{param}->{catch_error_pattern};
+    
+    return;
+}
+
+sub catch_error_retries {
+    my ($self) = @_;
+
+    my $retries = defined $ENV{AWS_CLIWRAPPER_CATCH_ERROR_RETRIES}
+        ? $ENV{AWS_CLIWRAPPER_CATCH_ERROR_RETRIES}
+        : defined $self->{param}->{catch_error_retries}
+            ? $self->{param}->{catch_error_retries}
+            : $DEFAULT_CATCH_ERROR_RETRIES;
+
+    $retries = $DEFAULT_CATCH_ERROR_RETRIES if $retries < 0;
+
+    return $retries;
+}
+
+sub catch_error_min_delay {
+    my ($self) = @_;
+
+    my $min_delay = defined $ENV{AWS_CLIWRAPPER_CATCH_ERROR_MIN_DELAY}
+        ? $ENV{AWS_CLIWRAPPER_CATCH_ERROR_MIN_DELAY}
+        : defined $self->{param}->{catch_error_min_delay}
+            ? $self->{param}->{catch_error_min_delay}
+            : $DEFAULT_CATCH_ERROR_MIN_DELAY;
+    
+    $min_delay = $DEFAULT_CATCH_ERROR_MIN_DELAY if $min_delay < 0;
+
+    return $min_delay;
+}
+
+sub catch_error_max_delay {
+    my ($self) = @_;
+
+    my $min_delay = $self->catch_error_min_delay;
+
+    my $max_delay = defined $ENV{AWS_CLIWRAPPER_CATCH_ERROR_MAX_DELAY}
+        ? $ENV{AWS_CLIWRAPPER_CATCH_ERROR_MAX_DELAY}
+        : defined $self->{param}->{catch_error_max_delay}
+            ? $self->{param}->{catch_error_max_delay}
+            : $DEFAULT_CATCH_ERROR_MAX_DELAY;
+    
+    $max_delay = $DEFAULT_CATCH_ERROR_MAX_DELAY if $max_delay < 0;
+
+    $max_delay = $min_delay if $min_delay > $max_delay;
+
+    return $max_delay;
+}
+
+sub catch_error_delay {
+    my ($self) = @_;
+
+    my $min = $self->catch_error_min_delay;
+    my $max = $self->catch_error_max_delay;
+
+    return $min == $max ? $min : $min + (int rand $max - $min);
 }
 
 sub param2opt {
@@ -190,12 +261,43 @@ sub _execute {
     @cmd = map { shell_quote($_) } @cmd;
     warn "cmd: ".join(' ', @cmd) if $ENV{AWSCLI_DEBUG};
 
+    my $error_re = $self->catch_error_pattern;
+    my $retries = $error_re ? $self->catch_error_retries : 0;
+
+    RETRY: {
+        $Error = { Message => '', Code => '' };
+
+        my $exit_value = $self->_run(\%opt, \@cmd);
+        my $ret = $self->_handle($service, $operation, $exit_value);
+
+        return $ret unless $Error->{Code};
+
+        if ($retries-- > 0 and $Error->{Message} =~ $error_re) {
+            my $delay = $self->catch_error_delay;
+
+            warn "Caught error matching $error_re, sleeping $delay seconds before retrying\n"
+                if $ENV{AWSCLI_DEBUG};
+
+            sleep $delay;
+
+            redo RETRY;
+        }
+
+        croak $Error->{Message} if $self->{croak_on_error};
+
+        return $ret;
+    }
+}
+
+sub _run {
+    my ($self, $opt, $cmd) = @_;
+
     my $ret;
-    if (exists $opt{'nofork'} && $opt{'nofork'}) {
+    if (exists $opt->{'nofork'} && $opt->{'nofork'}) {
         # better for perl debugger
         my($ok, $err, $buf, $stdout_buf, $stderr_buf) = IPC::Cmd::run(
-            command => join(' ', @cmd),
-            timeout => $opt{timeout} || $self->{timeout},
+            command => join(' ', @$cmd),
+            timeout => $opt->{timeout} || $self->{timeout},
         );
         $ret->{stdout} = join "", @$stdout_buf;
         $ret->{err_msg} = (defined $err ? "$err\n" : "") . join "", @$stderr_buf;
@@ -208,10 +310,16 @@ sub _execute {
         }
         print "";
     } else {
-        $ret = IPC::Cmd::run_forked(join(' ', @cmd), {
-            timeout => $opt{timeout} || $self->{timeout},
+        $ret = IPC::Cmd::run_forked(join(' ', @$cmd), {
+            timeout => $opt->{timeout} || $self->{timeout},
         });
     }
+
+    return $ret;
+}
+
+sub _handle {
+    my ($self, $service, $operation, $ret) = @_;
 
     if ($ret->{exit_code} == 0 && $ret->{timeout} == 0) {
         my $json = $ret->{stdout};
@@ -261,8 +369,6 @@ sub _execute {
                         ) if $ENV{AWSCLI_DEBUG};
             $Error = { Message => $msg, Code => 'Unknown' };
         }
-
-        croak $Error->{Message} if $self->{croak_on_error};
 
         return;
     }
@@ -673,10 +779,15 @@ Constructor of AWS::CLIWrapper. Acceptable AWS CLI params are:
 
 Additionally, the these params can be used to control the wrapper behavior:
 
-    nofork          Truthy to avoid forking when executing `aws`
-    timeout         `aws` execution timeout
-    croak_on_error  Truthy to croak() with the error message when `aws`
-                    exits with non-zero code
+    nofork                  Truthy to avoid forking when executing `aws`
+    timeout                 `aws` execution timeout
+    croak_on_error          Truthy to croak() with the error message when `aws`
+                            exits with non-zero code
+    catch_error_pattern     Regexp pattern to match for error handling.
+    catch_error_retries     Retries for handling errors.
+    catch_error_min_delay   Minimal delay before retrying `aws` call
+                            when an error was caught.
+    catch_error_max_delay   Maximal delay before retrying `aws` call.
 
 See below for more detailed explanation.
 
@@ -1416,6 +1527,46 @@ Third arg "opt" is optional. Available key/values are below:
   croak_on_error => Int (>0)
     When set to a truthy value, this will make AWS::CLIWrapper to croak() with error message when `aws` command exits with non-zero status. Default behavior is to set $AWS::CLIWrapper::Error and return.
 
+  catch_error_pattern => RegExp
+    When defined, this option will enable catching `aws-cli` errors matching this pattern
+    and retrying `aws-cli` command execution. Environment variable
+    AWS_CLIWRAPPER_CATCH_ERROR_PATTERN takes precedence over this option, if both
+    are defined.
+
+    Default is undef.
+
+  catch_error_retries => Int (>= 0)
+    When defined, this option will set the number of retries to make when `aws-cli` error
+    was caught with catch_error_pattern, before giving up. Environment variable
+    AWS_CLIWRAPPER_CATCH_ERROR_RETRIES takes precedence over this option, if both
+    are defined.
+
+    0 (zero) retries is a valid way to turn off error catching via environment variable
+    in certain scenarios. Negative values are invalid and will be reset to default.
+
+    Default is 3.
+
+  catch_error_min_delay => Int (>= 0)
+    When defined, this option will set the minimum delay in seconds before attempting
+    a retry of failed `aws-cli` execution when the error was caught. Environment variable
+    AWS_CLIWRAPPER_CATCH_ERROR_MIN_DELAY takes precedence over this option, if both
+    are defined.
+
+    0 (zero) is a valid value. Negative values are invalid and will be reset to default.
+
+    Default is 3.
+
+  catch_error_max_delay => Int (>= 0)
+    When defined, this option will set the maximum delay in seconds before attempting
+    a retry of failed `aws-cli` execution. Environment variable AWS_CLIWRAPPER_CATCH_ERROR_MAX_DELAY
+    takes precedence over this option, if both are defined.
+
+    0 (zero) is a valid value. Negative values are invalid and will be reset to default.
+    If catch_error_min_delay is greater than catch_error_max_delay, both are set
+    to catch_error_min_delay value.
+
+    Default is 10.
+
 =back
 
 =head1 ENVIRONMENT
@@ -1433,6 +1584,25 @@ If this variable is set, this value will be used instead of default timeout (30 
 invocation of `aws-cli` that does not have a timeout value provided in the options argument of the
 called function.
 
+=item AWS_CLIWRAPPER_CATCH_ERROR_PATTERN
+
+If this variable is set, AWS::CLIWrapper will retry `aws-cli` execution if stdout output
+of failed `aws-cli` command matches the pattern. See L<ERROR HANDLING>.
+
+=item AWS_CLIWRAPPER_CATCH_ERROR_RETRIES
+
+How many times to retry command execution if an error was caught. Default is 3.
+
+=item AWS_CLIWRAPPER_CATCH_ERROR_MIN_DELAY
+
+Minimal delay before retrying command execution if an error was caught, in seconds.
+
+Default is 3.
+
+=item AWS_CLIWRAPPER_CATCH_ERROR_MAX_DELAY
+
+Maximal delay before retrying command execution, in seconds. Default is 10.
+
 =item AWS_CONFIG_FILE
 
 =item AWS_ACCESS_KEY_ID
@@ -1444,6 +1614,35 @@ called function.
 See documents of aws-cli.
 
 =back
+
+=head1 ERROR HANDLING
+
+=over 4
+
+By default, when `aws-cli` exits with an error code (> 0), AWS::CLIWrapper will set
+the error code and message to $AWS::CLIWrapper::Error (and optionally croak), thus
+relaying the error to calling code. While this approach is beneficial 99% of the time,
+in some use cases `aws-cli` execution fails for a temporary reason unrelated to
+both calling code and AWS::CLIWrapper, and can be safely retried after a short delay.
+
+One of this use cases is executing `aws-cli` on AWS EC2 instances, where `aws-cli`
+retrieves its configuration and credentials from the API exposed to the EC2 instance;
+at certain times these credentials may be rotated and calling `aws-cli` at exactly
+the right moment will cause it to fail with `Unable to locate credentials` error.
+
+To prevent this kind of errors from failing the calling code, AWS::CLIWrapper allows
+configuring an RegExp pattern and retry `aws-cli` execution if it fails with an error
+matching the configured pattern.
+
+The error catching pattern, as well as other configuration, can be defined either
+as AWS::CLIWrapper options in the code, or as respective environment variables
+(see L<ENVIRONMENT>).
+
+The actual delay before retrying a failed `aws-cli` execution is computed as a
+random value of seconds between catch_error_min_delay (default 3) and catch_error_max_delay
+(default 10). Backoff is not supported at this moment.
+
+=back 
 
 =head1 AUTHOR
 
