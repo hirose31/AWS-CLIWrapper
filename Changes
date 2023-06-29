@@ -1,5 +1,10 @@
 Revision history for AWS::CLIWrapper
 
+1.27  2023-06-29
+    [IMPROVEMENTS]
+        - Optionally catch aws-cli errors and retry (PR #23 by @nohuhu)
+        - Add servics with aws-cli/1.27.163
+
 1.26  2023-05-25
     [IMPROVEMENTS]
         - Add `region` method to allow introspection on constructor arguments (PR #22 by @nohuhu)
