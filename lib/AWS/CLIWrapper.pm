@@ -396,6 +396,7 @@ sub apigatewaymanagementapi { shift->_execute('apigatewaymanagementapi', @_) }
 sub apigatewayv2       { shift->_execute('apigatewayv2', @_) }
 sub appconfig          { shift->_execute('appconfig', @_) }
 sub appconfigdata      { shift->_execute('appconfigdata', @_) }
+sub appfabric          { shift->_execute('appfabric', @_) }
 sub appflow            { shift->_execute('appflow', @_) }
 sub appintegrations    { shift->_execute('appintegrations', @_) }
 sub application_autoscaling { shift->_execute('application-autoscaling', @_) }
@@ -442,6 +443,7 @@ sub codebuild          { shift->_execute('codebuild', @_) }
 sub codecatalyst       { shift->_execute('codecatalyst', @_) }
 sub codecommit         { shift->_execute('codecommit', @_) }
 sub codeguru_reviewer  { shift->_execute('codeguru-reviewer', @_) }
+sub codeguru_security  { shift->_execute('codeguru-security', @_) }
 sub codeguruprofiler   { shift->_execute('codeguruprofiler', @_) }
 sub codepipeline       { shift->_execute('codepipeline', @_) }
 sub codestar           { shift->_execute('codestar', @_) }
@@ -550,6 +552,7 @@ sub iotthingsgraph     { shift->_execute('iotthingsgraph', @_) }
 sub iottwinmaker       { shift->_execute('iottwinmaker', @_) }
 sub iotwireless        { shift->_execute('iotwireless', @_) }
 sub ivs                { shift->_execute('ivs', @_) }
+sub ivs_realtime       { shift->_execute('ivs-realtime', @_) }
 sub ivschat            { shift->_execute('ivschat', @_) }
 sub kafka              { shift->_execute('kafka', @_) }
 sub kafkaconnect       { shift->_execute('kafkaconnect', @_) }
@@ -593,6 +596,7 @@ sub mediaconvert       { shift->_execute('mediaconvert', @_) }
 sub medialive          { shift->_execute('medialive', @_) }
 sub mediapackage       { shift->_execute('mediapackage', @_) }
 sub mediapackage_vod   { shift->_execute('mediapackage-vod', @_) }
+sub mediapackagev2     { shift->_execute('mediapackagev2', @_) }
 sub mediastore         { shift->_execute('mediastore', @_) }
 sub mediastore_data    { shift->_execute('mediastore-data', @_) }
 sub mediatailor        { shift->_execute('mediatailor', @_) }
@@ -619,8 +623,11 @@ sub opensearchserverless { shift->_execute('opensearchserverless', @_) }
 sub opsworks           { shift->_execute('opsworks', @_) }
 sub opsworks_cm        { shift->_execute('opsworks-cm', @_) }
 sub organizations      { shift->_execute('organizations', @_) }
+sub osis               { shift->_execute('osis', @_) }
 sub outposts           { shift->_execute('outposts', @_) }
 sub panorama           { shift->_execute('panorama', @_) }
+sub payment_cryptography { shift->_execute('payment-cryptography', @_) }
+sub payment_cryptography_data { shift->_execute('payment-cryptography-data', @_) }
 sub personalize        { shift->_execute('personalize', @_) }
 sub personalize_events { shift->_execute('personalize-events', @_) }
 sub personalize_runtime { shift->_execute('personalize-runtime', @_) }
@@ -712,7 +719,9 @@ sub tnb                { shift->_execute('tnb', @_) }
 sub transcribe         { shift->_execute('transcribe', @_) }
 sub transfer           { shift->_execute('transfer', @_) }
 sub translate          { shift->_execute('translate', @_) }
+sub verifiedpermissions { shift->_execute('verifiedpermissions', @_) }
 sub voice_id           { shift->_execute('voice-id', @_) }
+sub vpc_lattice        { shift->_execute('vpc-lattice', @_) }
 sub waf                { shift->_execute('waf', @_) }
 sub waf_regional       { shift->_execute('waf-regional', @_) }
 sub wafv2              { shift->_execute('wafv2', @_) }
@@ -824,6 +833,8 @@ See below for more detailed explanation.
 
 =item B<appconfigdata>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<appfabric>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<appflow>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<appintegrations>($operation:Str, $param:HashRef, %opt:Hash)
@@ -915,6 +926,8 @@ See below for more detailed explanation.
 =item B<codecommit>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<codeguru_reviewer>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<codeguru_security>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<codeguruprofiler>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -1132,6 +1145,8 @@ See below for more detailed explanation.
 
 =item B<ivs>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<ivs_realtime>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<ivschat>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<kafka>($operation:Str, $param:HashRef, %opt:Hash)
@@ -1218,6 +1233,8 @@ See below for more detailed explanation.
 
 =item B<mediapackage_vod>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<mediapackagev2>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<mediastore>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<mediastore_data>($operation:Str, $param:HashRef, %opt:Hash)
@@ -1270,9 +1287,15 @@ See below for more detailed explanation.
 
 =item B<organizations>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<osis>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<outposts>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<panorama>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<payment_cryptography>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<payment_cryptography_data>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<personalize>($operation:Str, $param:HashRef, %opt:Hash)
 
@@ -1456,7 +1479,11 @@ See below for more detailed explanation.
 
 =item B<translate>($operation:Str, $param:HashRef, %opt:Hash)
 
+=item B<verifiedpermissions>($operation:Str, $param:HashRef, %opt:Hash)
+
 =item B<voice_id>($operation:Str, $param:HashRef, %opt:Hash)
+
+=item B<vpc_lattice>($operation:Str, $param:HashRef, %opt:Hash)
 
 =item B<waf>($operation:Str, $param:HashRef, %opt:Hash)
 
